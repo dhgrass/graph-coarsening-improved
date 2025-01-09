@@ -1,3 +1,42 @@
 __pycache__
 *.pyc
 .ipynb_checkpoints
+
+
+venv/
+__pycache__/
+*.pyc
+.vscode/
+
+# Ignore node_modules directory
+node_modules/
+
+# Ignore log files
+*.log
+
+# Ignore build directories
+dist/
+build/
+
+# Ignore environment variable files
+.venv
+.venv.local
+
+# Ignore OS generated files
+.DS_Store
+Thumbs.db
+
+# Ignore IDE specific files
+.vscode/
+.idea/
+
+# Ignore compiled files
+*.out
+*.class
+*.o
+*.so
+
+# Ignore temporary files
+*.tmp
+*.swp
+*.bak
