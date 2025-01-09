@@ -95,6 +95,65 @@ def main():
             plt.savefig(os.path.join(directory, f'{network}_{metric}.png'))
             plt.close()
 
+def testBigNetsAndSaveToGML():
+    
+    # Parámetros globales
+    r = 0.6  # coarsening ratio
+    methods = [
+        "variation_neighborhoods",
+        "variation_edges",
+        "variation_cliques",
+        "heavy_edge",
+        "algebraic_JC",
+        "affinity_GS",
+        "kron",
+    ]
+
+    pathBignets = "/home/darian/graph-coarsening/BigNets/"
+
+    # Obtener la lista de archivos .gml en el directorio pathBignets
+    graph_files = glob.glob(os.path.join(pathBignets, '*.gml'))
+
+    for graph_file in graph_files:
+        graph_name = os.path.splitext(os.path.basename(graph_file))[0]
+        print(f"\nEvaluando grafo: {graph_name}")
+
+        # Cargar el grafo desde el archivo .gml
+        nx_graph = nx.read_gml(graph_file)
+
+        # Convertir el grafo de NetworkX a la estructura esperada por graph_lib
+        G = graph_lib.to_pygsp_graph(nx_graph)
+
+        # Imprimir el grafo original con indexación y sus adyacentes
+        print(f"Grafo original ({graph_name}):")
+        for node in nx_graph.nodes():
+            neighbors = list(nx_graph.neighbors(node))
+            print(f"Node {node}: {neighbors}")
+
+        # Calcular base espectral para operaciones avanzadas
+        G.compute_fourier_basis()
+
+        for method in methods:
+            print(f"    - Método: {method}")
+
+            # Aplicar coarsening
+            _, Gc, Call, _ = coarsening_utils.coarsen(G, r=r, method=method) # en Call está lo que necesito, propiedad indices
+
+            nx_graph_H = nx.from_scipy_sparse_array(Gc.W)
+            # acá tengo que crear las propiedades 'sizeSuperNode' y 'nodesInSuperNode' en nx_graph_H 
+            _, G_reducido_update = setPropertiesToNodes(nx_graph_H, Call, G)
+
+            # Imprimir el grafo reducido con indexación y sus adyacentes
+            print(f"Grafo reducido ({graph_name} - {method}):")
+            for node in G_reducido_update.nodes():
+                neighbors = list(G_reducido_update.neighbors(node))
+                print(f"Node {node}: {neighbors}")
+
+            # Guardar los grafos en formato GML para visualización en Gephi
+            nx.write_gml(G_reducido_update, f'/home/darian/graph-coarsening/results/{graph_name}_{method}_reduced.gml')
+
+            # saveToGMLwithCommunityLabels(graph_name, method=method)
+
 
 def testAndSaveToGML():
     
@@ -220,7 +279,7 @@ def saveToGMLwithCommunityLabels(networkName, method):
 
     # Leer los archivos GML
     print(f"Reading GML files for {networkName} and {method}")
-    original_file = glob.glob(f'/home/darian/graph-coarsening/AcademicsNets/{networkName}.gml')[0]
+    original_file = glob.glob(f'/home/darian/graph-coarsening/BigNets/{networkName}.gml')[0]
     graph_original = nx.read_gml(original_file)
     reduced_file = glob.glob(f'/home/darian/graph-coarsening/results/*{networkName}*{method}*_reduced.gml')[0]
     graph_reduced = nx.read_gml(reduced_file)
@@ -617,7 +676,8 @@ if __name__ == "__main__":
     # update_idNode_property('/home/darian/Graph-Reduction-Project/netsToGephiWithComm/polbooks.gml')
     # update_gt_property('/home/darian/Graph-Reduction-Project/netsToGephiWithComm/football.gml')
 
-    testAndSaveToGML()
+    # testAndSaveToGML()
+    testBigNetsAndSaveToGML()
     # evlauateGT()
     
     # graph_names = ["karate", "dolphins", "polbooks", "football"]

@@ -120,6 +120,36 @@ def real(N, graph_name, connected=True):
         
     return G
 
+def to_pygsp_graph(nx_graph):
+        """Converts a NetworkX graph to a PyGSP Graph."""
+        W = nx.to_scipy_sparse_array(nx_graph, format="csr")
+        G = graphs.Graph(W)
+        if not hasattr(G, "coords") or G.coords is None:
+            try:
+                pos = nx.nx_agraph.graphviz_layout(nx_graph, prog="neato")
+                G.set_coordinates(np.array(list(pos.values())))
+            except ImportError:
+                G.set_coordinates()
+        return G
+
+def bigNets(N, graph_name, connected=True):
+
+    nx_graph = nx.read_gml("/home/darian/graph-coarsening/BigNets/{graph_name}.gml")
+    G = to_pygsp_graph(nx_graph)
+
+    # Recortar nodos si se especifica un límite N
+    if N > 0 and N < G.N:
+        G = graphs.Graph(W=G.W[0:N, 0:N])
+        if hasattr(G, "coords") and G.coords is not None:
+            G.set_coordinates(G.coords[0:N, :])
+
+    # Asegurar conectividad si es necesario
+    if connected and not G.is_connected():
+        print(f"WARNING: {graph_name} is disconnected. Using the giant component.")
+        G, _ = graph_utils.get_giant_component(G)
+
+    return G
+
 
 def realAcademic(N, graph_name, connected=True):
     """
@@ -144,17 +174,7 @@ def realAcademic(N, graph_name, connected=True):
         The loaded graph as a PyGSP Graph object.
     """
 
-    def to_pygsp_graph(nx_graph):
-        """Converts a NetworkX graph to a PyGSP Graph."""
-        W = nx.to_scipy_sparse_array(nx_graph, format="csr")
-        G = graphs.Graph(W)
-        if not hasattr(G, "coords") or G.coords is None:
-            try:
-                pos = nx.nx_agraph.graphviz_layout(nx_graph, prog="neato")
-                G.set_coordinates(np.array(list(pos.values())))
-            except ImportError:
-                G.set_coordinates()
-        return G
+    
     
     print(f"Loading academic graph: {graph_name}")
 
