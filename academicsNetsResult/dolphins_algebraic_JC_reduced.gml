@@ -1,141 +1,141 @@
 graph [
   node [
     id 0
-    label "3"
-    sizeSuperNode 0
-    nodesInSuperNode "[]"
-  ]
-  node [
-    id 1
-    label "4"
-    sizeSuperNode 0
-    nodesInSuperNode "[]"
-  ]
-  node [
-    id 2
-    label "10"
-    sizeSuperNode 3
-    nodesInSuperNode "[2, 0, 10]"
-  ]
-  node [
-    id 3
     label "11"
     sizeSuperNode 0
     nodesInSuperNode "[]"
   ]
   node [
+    id 1
+    label "9"
+    sizeSuperNode 4
+    nodesInSuperNode "[5, 9, 6, 13]"
+  ]
+  node [
+    id 2
+    label "19"
+    sizeSuperNode 3
+    nodesInSuperNode "[1, 7, 19]"
+  ]
+  node [
+    id 3
+    label "22"
+    sizeSuperNode 0
+    nodesInSuperNode "[]"
+  ]
+  node [
     id 4
-    label "13"
-    sizeSuperNode 2
-    nodesInSuperNode "[6, 13]"
-  ]
-  node [
-    id 5
-    label "1"
-    sizeSuperNode 2
-    nodesInSuperNode "[1, 19]"
-  ]
-  node [
-    id 6
     label "25"
     sizeSuperNode 3
     nodesInSuperNode "[25, 26, 27]"
   ]
   node [
-    id 7
+    id 5
     label "18"
     sizeSuperNode 4
-    nodesInSuperNode "[18, 21, 24, 29]"
+    nodesInSuperNode "[18, 24, 21, 29]"
   ]
   node [
-    id 8
+    id 6
     label "28"
     sizeSuperNode 2
     nodesInSuperNode "[28, 30]"
   ]
   node [
-    id 9
-    label "17"
-    sizeSuperNode 3
-    nodesInSuperNode "[22, 17, 31]"
-  ]
-  node [
-    id 10
+    id 7
     label "35"
     sizeSuperNode 0
     nodesInSuperNode "[]"
   ]
   node [
-    id 11
+    id 8
     label "36"
     sizeSuperNode 2
     nodesInSuperNode "[23, 36]"
   ]
   node [
-    id 12
+    id 9
     label "39"
     sizeSuperNode 0
     nodesInSuperNode "[]"
   ]
   node [
-    id 13
+    id 10
+    label "8"
+    sizeSuperNode 4
+    nodesInSuperNode "[8, 20, 37, 40]"
+  ]
+  node [
+    id 11
+    label "33"
+    sizeSuperNode 4
+    nodesInSuperNode "[12, 33, 38, 43]"
+  ]
+  node [
+    id 12
     label "34"
     sizeSuperNode 4
     nodesInSuperNode "[14, 16, 34, 44]"
   ]
   node [
+    id 13
+    label "0"
+    sizeSuperNode 4
+    nodesInSuperNode "[0, 10, 42, 47]"
+  ]
+  node [
     id 14
-    label "42"
+    label "49"
     sizeSuperNode 2
-    nodesInSuperNode "[42, 47]"
+    nodesInSuperNode "[46, 49]"
   ]
   node [
     id 15
-    label "40"
-    sizeSuperNode 2
-    nodesInSuperNode "[40, 52]"
+    label "45"
+    sizeSuperNode 3
+    nodesInSuperNode "[15, 45, 50]"
   ]
   node [
     id 16
-    label "43"
-    sizeSuperNode 4
-    nodesInSuperNode "[46, 49, 43, 53]"
+    label "52"
+    sizeSuperNode 0
+    nodesInSuperNode "[]"
   ]
   node [
     id 17
-    label "54"
+    label "41"
     sizeSuperNode 2
-    nodesInSuperNode "[7, 54]"
+    nodesInSuperNode "[41, 54]"
   ]
   node [
     id 18
-    label "55"
-    sizeSuperNode 4
-    nodesInSuperNode "[15, 45, 51, 55]"
+    label "51"
+    sizeSuperNode 3
+    nodesInSuperNode "[4, 51, 55]"
   ]
   node [
     id 19
-    label "5"
-    sizeSuperNode 3
-    nodesInSuperNode "[9, 5, 56]"
+    label "56"
+    sizeSuperNode 0
+    nodesInSuperNode "[]"
   ]
   node [
     id 20
-    label "57"
-    sizeSuperNode 3
-    nodesInSuperNode "[48, 41, 57]"
+    label "17"
+    sizeSuperNode 4
+    nodesInSuperNode "[17, 31, 48, 57]"
   ]
   node [
     id 21
     label "58"
-    sizeSuperNode 2
-    nodesInSuperNode "[38, 58]"
+    sizeSuperNode 0
+    nodesInSuperNode "[]"
   ]
   node [
     id 22
-    label "8"
-    sizeSuperNode 4
-    nodesInSuperNode "[20, 50, 8, 59]"
+    label "59"
+    sizeSuperNode 2
+    nodesInSuperNode "[3, 59]"
   ]
   node [
     id 23
@@ -145,81 +145,69 @@ graph [
   ]
   node [
     id 24
-    label "33"
-    sizeSuperNode 4
-    nodesInSuperNode "[12, 33, 37, 61]"
+    label "61"
+    sizeSuperNode 3
+    nodesInSuperNode "[2, 53, 61]"
   ]
   edge [
     source 0
-    target 13
-  ]
-  edge [
-    source 0
-    target 22
+    target 18
   ]
   edge [
     source 1
-    target 18
-  ]
-  edge [
-    source 2
-    target 7
-  ]
-  edge [
-    source 2
-    target 13
-  ]
-  edge [
-    source 2
-    target 14
-  ]
-  edge [
-    source 2
-    target 15
-  ]
-  edge [
-    source 2
-    target 18
-  ]
-  edge [
-    source 2
-    target 24
-  ]
-  edge [
-    source 3
-    target 18
-  ]
-  edge [
-    source 4
-    target 9
-  ]
-  edge [
-    source 4
     target 17
   ]
   edge [
-    source 4
+    source 1
     target 19
+  ]
+  edge [
+    source 1
+    target 20
+  ]
+  edge [
+    source 1
+    target 23
+  ]
+  edge [
+    source 2
+    target 4
+  ]
+  edge [
+    source 2
+    target 6
+  ]
+  edge [
+    source 2
+    target 8
+  ]
+  edge [
+    source 2
+    target 10
+  ]
+  edge [
+    source 2
+    target 17
+  ]
+  edge [
+    source 2
+    target 20
+  ]
+  edge [
+    source 3
+    target 20
   ]
   edge [
     source 4
     target 20
   ]
   edge [
-    source 4
-    target 23
+    source 5
+    target 7
   ]
   edge [
     source 5
-    target 6
-  ]
-  edge [
-    source 5
-    target 8
-  ]
-  edge [
-    source 5
-    target 9
+    target 10
   ]
   edge [
     source 5
@@ -227,67 +215,83 @@ graph [
   ]
   edge [
     source 5
-    target 17
+    target 12
   ]
   edge [
     source 5
-    target 20
-  ]
-  edge [
-    source 6
-    target 9
-  ]
-  edge [
-    source 6
-    target 17
-  ]
-  edge [
-    source 7
-    target 10
-  ]
-  edge [
-    source 7
     target 13
   ]
   edge [
-    source 7
+    source 5
     target 15
   ]
   edge [
-    source 7
+    source 5
     target 16
   ]
   edge [
-    source 7
+    source 5
     target 18
   ]
   edge [
-    source 7
+    source 6
+    target 10
+  ]
+  edge [
+    source 6
+    target 13
+  ]
+  edge [
+    source 8
+    target 9
+  ]
+  edge [
+    source 8
+    target 10
+  ]
+  edge [
+    source 8
+    target 15
+  ]
+  edge [
+    source 8
+    target 18
+  ]
+  edge [
+    source 8
     target 22
-  ]
-  edge [
-    source 7
-    target 24
-  ]
-  edge [
-    source 8
-    target 14
-  ]
-  edge [
-    source 8
-    target 17
-  ]
-  edge [
-    source 8
-    target 22
-  ]
-  edge [
-    source 9
-    target 19
   ]
   edge [
     source 9
     target 20
+  ]
+  edge [
+    source 10
+    target 11
+  ]
+  edge [
+    source 10
+    target 12
+  ]
+  edge [
+    source 10
+    target 13
+  ]
+  edge [
+    source 10
+    target 15
+  ]
+  edge [
+    source 10
+    target 16
+  ]
+  edge [
+    source 10
+    target 22
+  ]
+  edge [
+    source 10
+    target 24
   ]
   edge [
     source 11
@@ -295,15 +299,19 @@ graph [
   ]
   edge [
     source 11
+    target 14
+  ]
+  edge [
+    source 11
     target 15
   ]
   edge [
     source 11
-    target 18
+    target 16
   ]
   edge [
     source 11
-    target 22
+    target 21
   ]
   edge [
     source 11
@@ -311,7 +319,27 @@ graph [
   ]
   edge [
     source 12
-    target 20
+    target 13
+  ]
+  edge [
+    source 12
+    target 14
+  ]
+  edge [
+    source 12
+    target 15
+  ]
+  edge [
+    source 12
+    target 16
+  ]
+  edge [
+    source 12
+    target 22
+  ]
+  edge [
+    source 12
+    target 24
   ]
   edge [
     source 13
@@ -319,27 +347,7 @@ graph [
   ]
   edge [
     source 13
-    target 16
-  ]
-  edge [
-    source 13
-    target 21
-  ]
-  edge [
-    source 13
-    target 22
-  ]
-  edge [
-    source 13
     target 24
-  ]
-  edge [
-    source 14
-    target 22
-  ]
-  edge [
-    source 15
-    target 17
   ]
   edge [
     source 15
@@ -347,50 +355,10 @@ graph [
   ]
   edge [
     source 15
-    target 21
-  ]
-  edge [
-    source 15
-    target 24
-  ]
-  edge [
-    source 16
-    target 21
-  ]
-  edge [
-    source 16
-    target 24
+    target 22
   ]
   edge [
     source 17
     target 20
-  ]
-  edge [
-    source 18
-    target 22
-  ]
-  edge [
-    source 18
-    target 24
-  ]
-  edge [
-    source 19
-    target 20
-  ]
-  edge [
-    source 19
-    target 23
-  ]
-  edge [
-    source 21
-    target 22
-  ]
-  edge [
-    source 21
-    target 24
-  ]
-  edge [
-    source 22
-    target 24
   ]
 ]

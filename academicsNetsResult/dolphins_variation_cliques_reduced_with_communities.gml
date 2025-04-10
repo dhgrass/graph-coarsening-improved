@@ -5,22 +5,22 @@ graph [
     sizeSuperNode 2
     nodesInSuperNode "[1, 17]"
     gt "1"
-    nodesChanged "[('17', '2', '1')]"
+    nodesChanged "[]"
   ]
   node [
     id 1
     label "44"
     sizeSuperNode 3
     nodesInSuperNode "[2, 44, 34]"
-    gt "1"
-    nodesChanged "[('44', 0, '1')]"
+    gt "3"
+    nodesChanged "[('2', '2', '3')]"
   ]
   node [
     id 2
     label "4"
     sizeSuperNode 0
     nodesInSuperNode "[]"
-    gt "2"
+    gt "4"
     nodesChanged "[]"
   ]
   node [
@@ -29,7 +29,7 @@ graph [
     sizeSuperNode 2
     nodesInSuperNode "[5, 56]"
     gt "1"
-    nodesChanged "[('56', '2', '1')]"
+    nodesChanged "[]"
   ]
   node [
     id 4
@@ -37,7 +37,7 @@ graph [
     sizeSuperNode 2
     nodesInSuperNode "[6, 54]"
     gt "1"
-    nodesChanged "[('54', '2', '1')]"
+    nodesChanged "[]"
   ]
   node [
     id 5
@@ -52,31 +52,31 @@ graph [
     label "8"
     sizeSuperNode 3
     nodesInSuperNode "[3, 8, 59]"
-    gt "2"
-    nodesChanged "[('3', '1', '2')]"
+    gt "3"
+    nodesChanged "[]"
   ]
   node [
     id 7
     label "9"
     sizeSuperNode 4
     nodesInSuperNode "[9, 13, 41, 57]"
-    gt "2"
-    nodesChanged "[('9', '1', '2'), ('41', 0, '2')]"
+    gt "1"
+    nodesChanged "[]"
   ]
   node [
     id 8
     label "0"
     sizeSuperNode 4
     nodesInSuperNode "[0, 10, 42, 47]"
-    gt "1"
-    nodesChanged "[('10', 0, '1'), ('42', 0, '1'), ('47', '2', '1')]"
+    gt "2"
+    nodesChanged "[]"
   ]
   node [
     id 9
     label "11"
     sizeSuperNode 0
     nodesInSuperNode "[]"
-    gt "1"
+    gt "4"
     nodesChanged "[]"
   ]
   node [
@@ -84,7 +84,7 @@ graph [
     label "12"
     sizeSuperNode 0
     nodesInSuperNode "[]"
-    gt "1"
+    gt "3"
     nodesChanged "[]"
   ]
   node [
@@ -92,16 +92,16 @@ graph [
     label "33"
     sizeSuperNode 11
     nodesInSuperNode "[14, 40, 52, 16, 20, 50, 21, 37, 33, 38, 43]"
-    gt "2"
-    nodesChanged "[('40', 0, '2'), ('21', '1', '2'), ('37', 0, '2'), ('38', 0, '2'), ('43', 0, '2')]"
+    gt "3"
+    nodesChanged "[('21', '4', '3')]"
   ]
   node [
     id 12
     label "24"
     sizeSuperNode 4
     nodesInSuperNode "[15, 18, 24, 45]"
-    gt "2"
-    nodesChanged "[('18', '1', '2'), ('24', '1', '2')]"
+    gt "4"
+    nodesChanged "[]"
   ]
   node [
     id 13
@@ -116,8 +116,8 @@ graph [
     label "36"
     sizeSuperNode 2
     nodesInSuperNode "[23, 36]"
-    gt "1"
-    nodesChanged "[('36', 0, '1')]"
+    gt "4"
+    nodesChanged "[('36', '3', '4')]"
   ]
   node [
     id 15
@@ -125,14 +125,14 @@ graph [
     sizeSuperNode 3
     nodesInSuperNode "[25, 26, 27]"
     gt "1"
-    nodesChanged "[('26', '2', '1')]"
+    nodesChanged "[]"
   ]
   node [
     id 16
     label "28"
     sizeSuperNode 2
     nodesInSuperNode "[28, 30]"
-    gt "1"
+    gt "2"
     nodesChanged "[]"
   ]
   node [
@@ -140,7 +140,7 @@ graph [
     label "35"
     sizeSuperNode 2
     nodesInSuperNode "[29, 35]"
-    gt "1"
+    gt "4"
     nodesChanged "[]"
   ]
   node [
@@ -157,14 +157,14 @@ graph [
     sizeSuperNode 2
     nodesInSuperNode "[32, 60]"
     gt "1"
-    nodesChanged "[('60', '2', '1')]"
+    nodesChanged "[]"
   ]
   node [
     id 20
     label "39"
     sizeSuperNode 0
     nodesInSuperNode "[]"
-    gt 0
+    gt "3"
     nodesChanged "[]"
   ]
   node [
@@ -172,7 +172,7 @@ graph [
     label "49"
     sizeSuperNode 2
     nodesInSuperNode "[46, 49]"
-    gt "2"
+    gt "3"
     nodesChanged "[]"
   ]
   node [
@@ -180,7 +180,7 @@ graph [
     label "48"
     sizeSuperNode 0
     nodesInSuperNode "[]"
-    gt "2"
+    gt "1"
     nodesChanged "[]"
   ]
   node [
@@ -188,7 +188,7 @@ graph [
     label "51"
     sizeSuperNode 2
     nodesInSuperNode "[51, 55]"
-    gt "2"
+    gt "4"
     nodesChanged "[]"
   ]
   node [
@@ -196,7 +196,7 @@ graph [
     label "61"
     sizeSuperNode 2
     nodesInSuperNode "[53, 61]"
-    gt "2"
+    gt "3"
     nodesChanged "[]"
   ]
   node [
@@ -204,7 +204,7 @@ graph [
     label "58"
     sizeSuperNode 0
     nodesInSuperNode "[]"
-    gt "2"
+    gt "3"
     nodesChanged "[]"
   ]
   edge [

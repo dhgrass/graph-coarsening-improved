@@ -11,6 +11,8 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
+from metrics import *
+
 
 def compare_adjacencies(original_graph, reduced_graph):
     original_edges = set(original_graph.edges())
@@ -95,7 +97,7 @@ def main():
             plt.savefig(os.path.join(directory, f'{network}_{metric}.png'))
             plt.close()
 
-def testBigNetsAndSaveToGML():
+def testBigNetsAndSaveToGML(pathBignets, output_path):
     
     # Parámetros globales
     r = 0.6  # coarsening ratio
@@ -109,8 +111,7 @@ def testBigNetsAndSaveToGML():
         "kron",
     ]
 
-    pathBignets = "/home/darian/graph-coarsening/BigNets/"
-
+    
     # Obtener la lista de archivos .gml en el directorio pathBignets
     graph_files = glob.glob(os.path.join(pathBignets, '*.gml'))
 
@@ -125,10 +126,10 @@ def testBigNetsAndSaveToGML():
         G = graph_lib.to_pygsp_graph(nx_graph)
 
         # Imprimir el grafo original con indexación y sus adyacentes
-        print(f"Grafo original ({graph_name}):")
-        for node in nx_graph.nodes():
-            neighbors = list(nx_graph.neighbors(node))
-            print(f"Node {node}: {neighbors}")
+        # print(f"Grafo original ({graph_name}):")
+        # for node in nx_graph.nodes():
+        #     neighbors = list(nx_graph.neighbors(node))
+        #     print(f"Node {node}: {neighbors}")
 
         # Calcular base espectral para operaciones avanzadas
         G.compute_fourier_basis()
@@ -144,33 +145,36 @@ def testBigNetsAndSaveToGML():
             _, G_reducido_update = setPropertiesToNodes(nx_graph_H, Call, G)
 
             # Imprimir el grafo reducido con indexación y sus adyacentes
-            print(f"Grafo reducido ({graph_name} - {method}):")
-            for node in G_reducido_update.nodes():
-                neighbors = list(G_reducido_update.neighbors(node))
-                print(f"Node {node}: {neighbors}")
+            # print(f"Grafo reducido ({graph_name} - {method}):")
+            # for node in G_reducido_update.nodes():
+            #     neighbors = list(G_reducido_update.neighbors(node))
+            #     print(f"Node {node}: {neighbors}")
 
             # Guardar los grafos en formato GML para visualización en Gephi
             nx.write_gml(G_reducido_update, f'/home/darian/graph-coarsening/results/{graph_name}_{method}_reduced.gml')
+            print(f"Archivo GML guardado: {graph_name}_{method}_reduced.gml")
 
-            # saveToGMLwithCommunityLabels(graph_name, method=method)
+    
 
-
-def testAndSaveToGML():
+def testAcademicsNetsAndSaveToGML():
     
     # Parámetros globales
     r = 0.6  # coarsening ratio
     methods = [
         "variation_neighborhoods",
-        "variation_edges",
-        "variation_cliques",
-        "heavy_edge",
-        "algebraic_JC",
-        "affinity_GS",
-        "kron",
+        # "variation_edges",
+        # "variation_cliques",
+        # "heavy_edge",
+        # "algebraic_JC",
+        # "affinity_GS",
+        # "kron",
     ]
 
     # Evaluar cada grafo académico
-    graph_names = ["karate", "dolphins", "polbooks", "football"]
+    # graph_names = ["karate", "dolphins", "polbooks", "football"]
+    graph_names = ["karate"]
+
+    spectral_metrics_all = []
 
     for graph_name in graph_names:
         print(f"\nEvaluando grafo: {graph_name}")
@@ -180,11 +184,11 @@ def testAndSaveToGML():
 
         nx_graph = nx.from_scipy_sparse_array(G.W)
 
-        # Imprimir el grafo original con indexación y sus adyacentes
-        print(f"Grafo original ({graph_name}):")
-        for node in nx_graph.nodes():
-            neighbors = list(nx_graph.neighbors(node))
-            print(f"Node {node}: {neighbors}")
+        # # Imprimir el grafo original con indexación y sus adyacentes
+        # print(f"Grafo original ({graph_name}):")
+        # for node in nx_graph.nodes():
+        #     neighbors = list(nx_graph.neighbors(node))
+        #     print(f"Node {node}: {neighbors}")
 
         # Calcular base espectral para operaciones avanzadas
         G.compute_fourier_basis()
@@ -195,23 +199,48 @@ def testAndSaveToGML():
 
             # Aplicar coarsening
             _, Gc, Call, _ = coarsening_utils.coarsen(G, r=r, method=method) # en Call está lo que necesito, propiedad indices
-
+            # TODO acá es el problema.... con esos pesos me da otra matrix de adyacencia....
             nx_graph_H = nx.from_scipy_sparse_array(Gc.W)
+
             # acá tengo que crear las propiedades 'sizeSuperNode' y 'nodesInSuperNode' en nx_graph_H 
             _, G_reducido_update = setPropertiesToNodes(nx_graph_H, Call, G)
 
-            # Imprimir el grafo reducido con indexación y sus adyacentes
-            print(f"Grafo reducido ({graph_name} - {method}):")
-            for node in G_reducido_update.nodes():
-                neighbors = list(G_reducido_update.neighbors(node))
-                print(f"Node {node}: {neighbors}")
+            # # Imprimir el grafo reducido con indexación y sus adyacentes
+            # print(f"Grafo reducido ({graph_name} - {method}):")
+            # for node in G_reducido_update.nodes():
+            #     neighbors = list(G_reducido_update.neighbors(node))
+            #     print(f"Node {node}: {neighbors}")
 
             # Guardar los grafos en formato GML para visualización en Gephi
             # nx.write_gml(nx_graph, f'/home/darian/Graph-Reduction-Project/{graph_name}_{method}_original.gml')
             nx.write_gml(G_reducido_update, f'/home/darian/graph-coarsening/results/{graph_name}_{method}_reduced.gml')
 
-            saveToGMLwithCommunityLabels(graph_name, method=method)
+            # saveToGMLwithCommunityLabels(graph_name, method=method)
 
+            # Convertir los grafos a matrices de adyacencia
+            adj_matrix_G = nx.to_numpy_array(nx_graph, weight=None)
+            adj_matrix_H = nx.to_numpy_array(nx_graph_H, weight=None)
+
+            # Guardar la matriz de adyacencia adj_matrix_H en un archivo .txt iterando fila por fila
+            adj_matrix_H_filename = os.path.join('/home/darian/graph-coarsening/results/', f'{graph_name}_{method}_adj_matrix_H.txt')
+            with open(adj_matrix_H_filename, 'w') as f:
+                for row in adj_matrix_H:
+                    f.write(' '.join(map(str, row.astype(int))) + '\n')
+            print(f"Matriz de adyacencia guardada en: {adj_matrix_H_filename}")
+
+            # Imprimir la matriz de adyacencia adj_matrix_H
+            # print("Matriz de adyacencia (adj_matrix_H):")
+            # print(adj_matrix_H)
+            
+            # Calcular las métricas espectrales para el grafo original y el grafo reducido
+            spectral_metrics = analyze_spectral_properties(adj_matrix_G, adj_matrix_H)
+
+            spectral_metrics['Network'] = graph_name
+            spectral_metrics['Method'] = method
+
+            spectral_metrics_all.append(spectral_metrics)
+
+    save_metrics_to_excel(spectral_metrics_all, '/home/darian/graph-coarsening/results/metrics_results.xlsx')
 
 def setPropertiesToNodes(graph, Call, G):
     print("Setting properties to nodes")
@@ -236,7 +265,7 @@ def setPropertiesToNodes(graph, Call, G):
         graph.nodes[node]['sizeSuperNode'] = len(members)
         graph.nodes[node]['nodesInSuperNode'] = members
 
-    print("Nodes and properties:", graph.nodes(data=True))
+    # print("Nodes and properties:", graph.nodes(data=True))
 
     # Create a new reduced graph with updated vertex indices
     new_graph = nx.Graph()
@@ -267,7 +296,7 @@ def setPropertiesToNodes(graph, Call, G):
         new_v = node_mapping[v]
         new_graph.add_edge(new_u, new_v)
 
-    print("New graph with updated vertex indices:", new_graph.nodes(data=True))
+    # print("New graph with updated vertex indices:", new_graph.nodes(data=True))
     
     # Convert 'nodesInSuperNode' property to a list format
     for node in new_graph.nodes():
@@ -279,7 +308,7 @@ def saveToGMLwithCommunityLabels(networkName, method):
 
     # Leer los archivos GML
     print(f"Reading GML files for {networkName} and {method}")
-    original_file = glob.glob(f'/home/darian/graph-coarsening/BigNets/{networkName}.gml')[0]
+    original_file = glob.glob(f'/home/darian/graph-coarsening/AcademicsNets/{networkName}.gml')[0]
     graph_original = nx.read_gml(original_file)
     reduced_file = glob.glob(f'/home/darian/graph-coarsening/results/*{networkName}*{method}*_reduced.gml')[0]
     graph_reduced = nx.read_gml(reduced_file)
@@ -292,40 +321,11 @@ def saveToGMLwithCommunityLabels(networkName, method):
     # Imprimir las etiquetas de comunidad como un diccionario por vértices
     print("Etiquetas de comunidad por vértices:")
     pprint.pprint(community_labels)
-
-    # Crear un diccionario para vincular etiquetas desde "0" hasta que haga falta
-    # dict_label = {}
-    # if networkName == "polbooks" or networkName == "football":        
-    #     for (key, value) in enumerate(community_labels.items()):
-    #         dict_label[key] = value
-
-    # Asignar las etiquetas de comunidad a los nodos en graph_original
-    # for node in graph_original.nodes():
-        # if networkName == "polbooks" or networkName == "football":
-        #         graph_original.nodes[node]['gt'] = dict_label[int(node)][1]
-        # else:
-        # if node in community_labels:
-        #     graph_original.nodes[node]['gt'] = community_labels[node]
     
     print("Nodos y atributos de G original:", graph_original.nodes(data=True))
 
     # Asignar las etiquetas de comunidad a los nodos en graph_reduced
     for node in graph_reduced.nodes():
-        # if networkName == "polbooks" or networkName == "football":
-        #     if graph_reduced.nodes[node]['sizeSuperNode'] != 0:
-        #         nodes_in_supernode = eval(graph_reduced.nodes[node]['nodesInSuperNode'])
-        #         community_counts = {}
-        #         for subnode in nodes_in_supernode:
-        #             community = dict_label[subnode][1]
-        #             if community in community_counts:
-        #                 community_counts[community] += 1
-        #             else:
-        #                 community_counts[community] = 1
-        #         most_common_community = max(community_counts, key=community_counts.get)
-        #         graph_reduced.nodes[node]['gt'] = most_common_community
-        #     else:
-        #         graph_reduced.nodes[node]['gt'] = dict_label[int(node)][1]
-        # else:
         if graph_reduced.nodes[node]['sizeSuperNode'] != 0:
             nodes_in_supernode = eval(graph_reduced.nodes[node]['nodesInSuperNode'])
             community_counts = {}
@@ -336,6 +336,8 @@ def saveToGMLwithCommunityLabels(networkName, method):
                         community_counts[community] += 1
                     else:
                         community_counts[community] = 1
+            if not community_counts:
+                print('La estructura community_counts está vacía')
             most_common_community = max(community_counts, key=community_counts.get)
             graph_reduced.nodes[node]['gt'] = most_common_community
             
@@ -367,10 +369,7 @@ def saveToGMLwithCommunityLabels(networkName, method):
             del d['weight']
 
     # Guardar los grafos en formato GML para visualización en Gephi
-    # nx.write_gml(graph_original, f'/home/darian/Graph-Reduction-Project/networkToGML/{networkName}_{method}_original_with_communities.gml')
     nx.write_gml(graph_reduced, f'/home/darian/graph-coarsening/results/{networkName}_{method}_reduced_with_communities.gml')
-
-
 
 def calculate_accuracy(original_graph, reduced_graph):
     total_nodes = 0
@@ -543,18 +542,23 @@ def update_dolphins_network(input_file, output_gml_file, output_mapping_file):
     G = nx.read_gml(input_file)
 
     # Definir las comunidades según los nombres de los nodos
+
     community_1 = {
-        "Beak", "Beescratch", "Bumper", "CCL", "DN16", "DN21", "DN63",
-        "Feather", "Five", "Fork", "Jonah", "Knit", "MN105", "MN23",
-        "MN60", "MN83", "Mus", "Number1", "Oscar", "Patchback", "PL",
-        "Quasi", "Ripplefluke", "Shmuddel", "SMN5"
+        "Beescratch", "DN16", "DN21", "DN63", "Feather", "Gallatin", "Jet", "Knit", "MN23",
+        "Mus", "Notch",  "Number1", "Quasi", "Ripplefluke", "SN90", "TR82", "Upbang", "Wave", "Web", "Zig",
     }
 
     community_2 = {
-        "Cross", "Double", "Gallatin", "Grin", "Haecksel", "Hook", "Jet",
-        "Kringel", "Notch", "Scabs", "Topless", "TR120", "TR77", "TR82",
-        "TR88", "TR99", "Trigger", "TSN103", "TSN83", "Upbang", "Vau",
-        "Wave", "Web", "Whitetip", "Zap", "Zig", "Zipfel"
+        "Beak", "Bumper", "Fish",  "Oscar", "PL", "SN96", "TR77", 
+    }
+
+    community_3 = {
+        "CCL", "Double", "Fork", "Grin",  "Hook", "Kringel", "Scabs", "Shmuddel","SN100", "SN4", "SN63", "SN89",
+        "SN9", "Stripes", "Thumper", "TR120", "TR88", "TR99", "TSN103", "TSN83", "Whitetip", "Zap", "Zipfel"
+    }
+
+    community_4 = {
+        "Cross", "Five", "Haecksel", "Jonah",  "MN105", "MN60", "MN83", "Patchback", "SMN5", "Topless", "Trigger",  "Vau",
     }
 
     # Crear un diccionario para almacenar la relación entre labels antiguos y nuevos
@@ -566,9 +570,13 @@ def update_dolphins_network(input_file, output_gml_file, output_mapping_file):
 
         # Asignar comunidades como 'gt'
         if old_label in community_1:
-            G.nodes[node_id]['gt'] = 1
+            G.nodes[node_id]['gt'] = "1"
         elif old_label in community_2:
-            G.nodes[node_id]['gt'] = 2
+            G.nodes[node_id]['gt'] = "2"
+        elif old_label in community_3:
+            G.nodes[node_id]['gt'] = "3"
+        elif old_label in community_4:
+            G.nodes[node_id]['gt'] = "4"
         else:
             G.nodes[node_id]['gt'] = 0  # Nodo sin comunidad
 
@@ -662,6 +670,14 @@ def process_gml_files(directory):
 if __name__ == "__main__":
     print("Starting...")
 
+
+    # print("Starting")
+    # input_path = "nets/BigNets/"
+    # output_path = "result/"
+    # testBigNetsAndSaveToGML(input_path, output_path)
+    # testCoarseningMethods(input_path, output_path, our_method=True)
+    # print("Finished")
+
     # assign_karate_gt("karate_originalPrueba.gml", "karate_with_gt.gml")
 
     # print("Done!")
@@ -676,8 +692,9 @@ if __name__ == "__main__":
     # update_idNode_property('/home/darian/Graph-Reduction-Project/netsToGephiWithComm/polbooks.gml')
     # update_gt_property('/home/darian/Graph-Reduction-Project/netsToGephiWithComm/football.gml')
 
-    # testAndSaveToGML()
-    testBigNetsAndSaveToGML()
+    
+    testAcademicsNetsAndSaveToGML()
+
     # evlauateGT()
     
     # graph_names = ["karate", "dolphins", "polbooks", "football"]

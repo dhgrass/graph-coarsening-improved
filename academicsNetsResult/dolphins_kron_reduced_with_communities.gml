@@ -5,23 +5,23 @@ graph [
     sizeSuperNode 4
     nodesInSuperNode "[5, 9, 6, 13]"
     gt "1"
-    nodesChanged "[('13', '2', '1')]"
+    nodesChanged "[]"
   ]
   node [
     id 1
     label "3"
     sizeSuperNode 4
     nodesInSuperNode "[3, 8, 14, 16]"
-    gt "2"
-    nodesChanged "[('3', '1', '2')]"
+    gt "3"
+    nodesChanged "[]"
   ]
   node [
     id 2
     label "0"
     sizeSuperNode 4
     nodesInSuperNode "[0, 10, 15, 18]"
-    gt "1"
-    nodesChanged "[('10', 0, '1'), ('15', '2', '1')]"
+    gt "2"
+    nodesChanged "[('15', '4', '2'), ('18', '4', '2')]"
   ]
   node [
     id 3
@@ -29,7 +29,7 @@ graph [
     sizeSuperNode 4
     nodesInSuperNode "[1, 17, 7, 19]"
     gt "1"
-    nodesChanged "[('17', '2', '1')]"
+    nodesChanged "[]"
   ]
   node [
     id 4
@@ -45,7 +45,7 @@ graph [
     sizeSuperNode 3
     nodesInSuperNode "[25, 26, 27]"
     gt "1"
-    nodesChanged "[('26', '2', '1')]"
+    nodesChanged "[]"
   ]
   node [
     id 6
@@ -60,15 +60,15 @@ graph [
     label "33"
     sizeSuperNode 4
     nodesInSuperNode "[21, 29, 12, 33]"
-    gt "1"
-    nodesChanged "[('33', '2', '1')]"
+    gt "4"
+    nodesChanged "[('12', '3', '4'), ('33', '3', '4')]"
   ]
   node [
     id 8
     label "35"
     sizeSuperNode 0
     nodesInSuperNode "[]"
-    gt "1"
+    gt "4"
     nodesChanged "[]"
   ]
   node [
@@ -76,39 +76,39 @@ graph [
     label "20"
     sizeSuperNode 4
     nodesInSuperNode "[20, 28, 23, 36]"
-    gt "1"
-    nodesChanged "[('20', '2', '1'), ('36', 0, '1')]"
+    gt "3"
+    nodesChanged "[('28', '2', '3'), ('23', '4', '3')]"
   ]
   node [
     id 10
     label "43"
     sizeSuperNode 4
     nodesInSuperNode "[34, 37, 38, 43]"
-    gt "1"
-    nodesChanged "[('37', 0, '1'), ('38', 0, '1'), ('43', 0, '1')]"
+    gt "3"
+    nodesChanged "[]"
   ]
   node [
     id 11
     label "2"
     sizeSuperNode 3
     nodesInSuperNode "[2, 42, 44]"
-    gt "1"
-    nodesChanged "[('42', 0, '1'), ('44', 0, '1')]"
+    gt "2"
+    nodesChanged "[('44', '3', '2')]"
   ]
   node [
     id 12
     label "30"
     sizeSuperNode 2
     nodesInSuperNode "[30, 47]"
-    gt "1"
-    nodesChanged "[('47', '2', '1')]"
+    gt "2"
+    nodesChanged "[]"
   ]
   node [
     id 13
     label "49"
     sizeSuperNode 2
     nodesInSuperNode "[46, 49]"
-    gt "2"
+    gt "3"
     nodesChanged "[]"
   ]
   node [
@@ -116,39 +116,39 @@ graph [
     label "45"
     sizeSuperNode 3
     nodesInSuperNode "[24, 45, 50]"
-    gt "2"
-    nodesChanged "[('24', '1', '2')]"
+    gt "4"
+    nodesChanged "[('50', '3', '4')]"
   ]
   node [
     id 15
     label "51"
     sizeSuperNode 3
     nodesInSuperNode "[11, 4, 51]"
-    gt "2"
-    nodesChanged "[('11', '1', '2')]"
+    gt "4"
+    nodesChanged "[]"
   ]
   node [
     id 16
     label "40"
     sizeSuperNode 2
     nodesInSuperNode "[40, 52]"
-    gt "2"
-    nodesChanged "[('40', 0, '2')]"
+    gt "3"
+    nodesChanged "[]"
   ]
   node [
     id 17
     label "41"
     sizeSuperNode 2
     nodesInSuperNode "[41, 54]"
-    gt "2"
-    nodesChanged "[('41', 0, '2')]"
+    gt "1"
+    nodesChanged "[]"
   ]
   node [
     id 18
     label "55"
     sizeSuperNode 0
     nodesInSuperNode "[]"
-    gt "2"
+    gt "4"
     nodesChanged "[]"
   ]
   node [
@@ -156,7 +156,7 @@ graph [
     label "56"
     sizeSuperNode 0
     nodesInSuperNode "[]"
-    gt "2"
+    gt "1"
     nodesChanged "[]"
   ]
   node [
@@ -164,15 +164,15 @@ graph [
     label "57"
     sizeSuperNode 3
     nodesInSuperNode "[48, 39, 57]"
-    gt "2"
-    nodesChanged "[('39', 0, '2')]"
+    gt "1"
+    nodesChanged "[('39', '3', '1')]"
   ]
   node [
     id 21
     label "58"
     sizeSuperNode 0
     nodesInSuperNode "[]"
-    gt "2"
+    gt "3"
     nodesChanged "[]"
   ]
   node [
@@ -180,7 +180,7 @@ graph [
     label "59"
     sizeSuperNode 0
     nodesInSuperNode "[]"
-    gt "2"
+    gt "3"
     nodesChanged "[]"
   ]
   node [
@@ -189,14 +189,14 @@ graph [
     sizeSuperNode 2
     nodesInSuperNode "[32, 60]"
     gt "1"
-    nodesChanged "[('60', '2', '1')]"
+    nodesChanged "[]"
   ]
   node [
     id 24
     label "61"
     sizeSuperNode 2
     nodesInSuperNode "[53, 61]"
-    gt "2"
+    gt "3"
     nodesChanged "[]"
   ]
   edge [

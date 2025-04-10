@@ -54,18 +54,18 @@ def analyze_spectral_properties(graph, reduced_graph):
     Returns:
     - metrics: spectral ratios, eigenratios, algebraic connectivity, and spectral gaps.
     """
-    print("Begin analyze_spectral_properties")
-    if isinstance(graph, nx.Graph):
-        print("Nodos y atributos de graph:", graph.nodes(data=True))
-        print("Aristas y atributos de graph:", graph.edges(data=True))
-        print("number of nodes in graph:", graph.number_of_nodes())
-        print("number of edges in graph:", graph.number_of_edges())
+    # print("Begin analyze_spectral_properties")
+    # if isinstance(graph, nx.Graph):
+    #     print("Nodos y atributos de graph:", graph.nodes(data=True))
+    #     print("Aristas y atributos de graph:", graph.edges(data=True))
+    #     print("number of nodes in graph:", graph.number_of_nodes())
+    #     print("number of edges in graph:", graph.number_of_edges())
 
-    if isinstance(reduced_graph, nx.Graph):
-        print("Nodos y atributos de reduced_graph:", reduced_graph.nodes(data=True))
-        print("Aristas y atributos de reduced_graph:", reduced_graph.edges(data=True))
-        print("number of nodes in reduced graph:", reduced_graph.number_of_nodes())
-        print("number of edges in reduced graph:", reduced_graph.number_of_edges())
+    # if isinstance(reduced_graph, nx.Graph):
+    #     print("Nodos y atributos de reduced_graph:", reduced_graph.nodes(data=True))
+    #     print("Aristas y atributos de reduced_graph:", reduced_graph.edges(data=True))
+    #     print("number of nodes in reduced graph:", reduced_graph.number_of_nodes())
+    #     print("number of edges in reduced graph:", reduced_graph.number_of_edges())
     
     # Convert NetworkX graphs to adjacency matrices if they are not already numpy arrays
     if isinstance(graph, nx.Graph):
@@ -73,15 +73,14 @@ def analyze_spectral_properties(graph, reduced_graph):
     if isinstance(reduced_graph, nx.Graph):
         reduced_graph = nx.to_numpy_array(reduced_graph)
 
-
-
-    # Calculate Laplacian matrices of both graphs
-    L = nx.laplacian_matrix(nx.from_numpy_array(graph)).toarray()
-    L_prime = nx.laplacian_matrix(nx.from_numpy_array(reduced_graph)).toarray()
+    G = nx.from_numpy_array(graph, edge_attr=None)
+    G_r = nx.from_numpy_array(reduced_graph, edge_attr=None)
+    L = nx.laplacian_matrix(G).toarray()
+    L_prime = nx.laplacian_matrix(G_r).toarray()
 
     # Calculate the adjacency matrices of both graphs
-    A = nx.to_numpy_array(nx.from_numpy_array(graph))
-    A_prime = nx.to_numpy_array(nx.from_numpy_array(reduced_graph))
+    A = nx.to_numpy_array(G)
+    A_prime = nx.to_numpy_array(G_r)
 
     # Calculate the eigenvalues of both adjacency matrices
     eigenvalues_A = np.linalg.eigvals(A)
@@ -152,3 +151,18 @@ def analyze_spectral_properties(graph, reduced_graph):
     }
 
     return metrics
+
+def save_metrics_to_excel(metrics_list, filename):
+    data = []
+    for metrics in metrics_list:
+        network_name = metrics['Network']
+        method = metrics['Method']
+        data.append([network_name, method, 'Spectral Ratio', metrics['Spectral Ratio (Original)'], metrics['Spectral Ratio (Reduced)']])
+        data.append([network_name, method, 'Eigenratio', metrics['Eigenratio (Original)'], metrics['Eigenratio (Reduced)']])
+        data.append([network_name, method, 'Spectral Gap', metrics['Spectral Gap (Original)'], metrics['Spectral Gap (Reduced)']])
+        data.append([network_name, method, 'Algebraic Connectivity', metrics['Algebraic Connectivity (Original)'], metrics['Algebraic Connectivity (Reduced)']])
+        data.append([network_name, method, 'Number of Nodes', metrics['Number of Nodes (Original)'], metrics['Number of Nodes (Reduced)']])
+        data.append([network_name, method, 'Number of Edges', metrics['Number of Edges (Original)'], metrics['Number of Edges (Reduced)']])
+
+    df = pd.DataFrame(data, columns=['Network', 'Method', 'Metric', 'Original', 'Reduced'])
+    df.to_excel(filename, index=False)

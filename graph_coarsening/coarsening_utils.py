@@ -52,6 +52,8 @@ def coarsen(
     -------
     C, Gc, Call, Gall = coarsen(G, K=10, r=0.8)
     """
+
+    print("Coarsening graph begin")
     r = np.clip(r, 0, 0.999)
     G0 = G
     N = G.N
@@ -65,7 +67,7 @@ def coarsen(
     Call, Gall = [], []
     Gall.append(G)
 
-    print("number of nodes", G.N)
+    # print("number of nodes", G.N)
 
     for level in range(1, max_levels + 1):
 
@@ -78,7 +80,7 @@ def coarsen(
         #         print(f"  Signals: {G.signals[i]}")
         #     if hasattr(G, 'labels'):
         #         print(f"  Labels: {G.labels[i]}")
-        print("number of nodes", Gc.N)
+        # print("number of nodes", Gc.N)
         G = Gc
 
         
@@ -124,7 +126,7 @@ def coarsen(
                 coarsening_list = contract_variation_linear(
                     G, K=K, A=A, r=r_cur, mode=method
                 )
-            print("number of nodes", G.N)
+            # print("number of nodes", G.N)
         else:
             weights = get_proximity_measure(G, method, K=K)
 
@@ -137,15 +139,15 @@ def coarsen(
 
             elif algorithm == "greedy":
                 coarsening_list = matching_greedy(G, weights=weights, r=r_cur)
-            print("number of nodes", G.N) # no se reduce el numero de nodos
+            # print("number of nodes", G.N) # no se reduce el numero de nodos
         iC = get_coarsening_matrix(G, coarsening_list)
-        print("number of nodes", G.N) # no se reduce el numero de nodos
+        # print("number of nodes", G.N) # no se reduce el numero de nodos
         if iC.shape[1] - iC.shape[0] <= 2:
             break  # avoid too many levels for so few nodes
 
         C = iC.dot(C)
         Call.append(iC)
-        print("number of nodes", G.N)
+        # print("number of nodes", G.N)
         Wc = graph_utils.zero_diag(coarsen_matrix(G.W, iC))  # coarsen and remove self-loops, acá se reduce el grafo
         Wc = (Wc + Wc.T) / 2  # this is only needed to avoid pygsp complaining for tiny errors
         
@@ -158,31 +160,33 @@ def coarsen(
         Gall.append(Gc)
 
         n = Gc.N
-        print("number of nodes", Gc.N) # se reduce el numero de nodos
+        # print("number of nodes", Gc.N) # se reduce el numero de nodos
         if n <= n_target:
             break
     
 
-    print("Vertices and their adjacent vertices in Gc:")
-    for i in range(Gc.N):
-        neighbors = Gc.get_edge_list()[0][Gc.get_edge_list()[1] == i]
-        print(f"Vertex {i}: {neighbors}")
+    # print("Vertices and their adjacent vertices in Gc:")
+    # for i in range(Gc.N):
+    #     neighbors = Gc.get_edge_list()[0][Gc.get_edge_list()[1] == i]
+    #     print(f"Vertex {i}: {neighbors}")
 
     
-    print("\nAdjacency lists of all graphs in Gall:")
-    for level, graph in enumerate(Gall):
-        print(f"\nGraph at level {level}:")
-        for i in range(graph.N):
-            neighbors = graph.get_edge_list()[0][graph.get_edge_list()[1] == i]
-            print(f"Vertex {i}: {neighbors}")
+    # print("\nAdjacency lists of all graphs in Gall:")
+    # for level, graph in enumerate(Gall):
+    #     print(f"\nGraph at level {level}:")
+    #     for i in range(graph.N):
+    #         neighbors = graph.get_edge_list()[0][graph.get_edge_list()[1] == i]
+    #         print(f"Vertex {i}: {neighbors}")
 
 
 
-    print("\nProperties of indices in the sparse matrices within Call:")
-    for level, C in enumerate(Call):
-        print(f"\nLevel {level}:")
-        print(f"  Indices: {C.indices}")
-        print(f"  Indptr: {C.indptr}")
+    # print("\nProperties of indices in the sparse matrices within Call:")
+    # for level, C in enumerate(Call):
+    #     print(f"\nLevel {level}:")
+    #     print(f"  Indices: {C.indices}")
+    #     print(f"  Indptr: {C.indptr}")
+
+    print("Coarsening graph END")
     return C, Gc, Call, Gall
 
 

@@ -1,71 +1,71 @@
 graph [
   node [
     id 0
-    label "8"
+    label "4"
     sizeSuperNode 0
     nodesInSuperNode "[]"
-    gt "2"
+    gt "4"
     nodesChanged "[]"
   ]
   node [
     id 1
-    label "0"
-    sizeSuperNode 2
-    nodesInSuperNode "[0, 10]"
+    label "6"
+    sizeSuperNode 0
+    nodesInSuperNode "[]"
     gt "1"
-    nodesChanged "[('10', 0, '1')]"
+    nodesChanged "[]"
   ]
   node [
     id 2
-    label "16"
-    sizeSuperNode 2
-    nodesInSuperNode "[14, 16]"
-    gt "2"
+    label "8"
+    sizeSuperNode 0
+    nodesInSuperNode "[]"
+    gt "3"
     nodesChanged "[]"
   ]
   node [
     id 3
-    label "23"
-    sizeSuperNode 0
-    nodesInSuperNode "[]"
+    label "19"
+    sizeSuperNode 2
+    nodesInSuperNode "[7, 19]"
     gt "1"
     nodesChanged "[]"
   ]
   node [
     id 4
-    label "26"
-    sizeSuperNode 4
-    nodesInSuperNode "[25, 26, 1, 27]"
-    gt "1"
-    nodesChanged "[('26', '2', '1')]"
+    label "18"
+    sizeSuperNode 2
+    nodesInSuperNode "[18, 21]"
+    gt "4"
+    nodesChanged "[]"
   ]
   node [
     id 5
-    label "18"
-    sizeSuperNode 4
-    nodesInSuperNode "[18, 24, 21, 29]"
-    gt "1"
-    nodesChanged "[]"
+    label "24"
+    sizeSuperNode 2
+    nodesInSuperNode "[14, 24]"
+    gt "3"
+    nodesChanged "[('24', '4', '3')]"
   ]
   node [
     id 6
     label "17"
-    sizeSuperNode 3
-    nodesInSuperNode "[17, 22, 31]"
+    sizeSuperNode 4
+    nodesInSuperNode "[17, 22, 25, 26]"
     gt "1"
-    nodesChanged "[('17', '2', '1')]"
+    nodesChanged "[]"
   ]
   node [
     id 7
-    label "33"
-    sizeSuperNode 2
-    nodesInSuperNode "[12, 33]"
+    label "1"
+    sizeSuperNode 4
+    nodesInSuperNode "[1, 27, 28, 30]"
     gt "1"
-    nodesChanged "[('33', '2', '1')]"
+    nodesChanged "[('28', '2', '1'), ('30', '2', '1')]"
   ]
   node [
     id 8
-    label "35"
+    label "31"
     sizeSuperNode 0
     nodesInSuperNode "[]"
     gt "1"
@@ -73,247 +73,223 @@ graph [
   ]
   node [
     id 9
-    label "46"
-    sizeSuperNode 0
-    nodesInSuperNode "[]"
-    gt "2"
+    label "35"
+    sizeSuperNode 2
+    nodesInSuperNode "[29, 35]"
+    gt "4"
     nodesChanged "[]"
   ]
   node [
     id 10
-    label "30"
-    sizeSuperNode 4
-    nodesInSuperNode "[28, 30, 42, 47]"
-    gt "1"
-    nodesChanged "[('42', 0, '1'), ('47', '2', '1')]"
+    label "36"
+    sizeSuperNode 3
+    nodesInSuperNode "[20, 36, 39]"
+    gt "3"
+    nodesChanged "[]"
   ]
   node [
     id 11
-    label "48"
-    sizeSuperNode 0
-    nodesInSuperNode "[]"
-    gt "2"
+    label "33"
+    sizeSuperNode 4
+    nodesInSuperNode "[12, 33, 37, 43]"
+    gt "3"
     nodesChanged "[]"
   ]
   node [
     id 12
-    label "34"
-    sizeSuperNode 4
-    nodesInSuperNode "[36, 37, 34, 49]"
-    gt "1"
-    nodesChanged "[('36', 0, '1'), ('37', 0, '1'), ('49', '2', '1')]"
+    label "45"
+    sizeSuperNode 2
+    nodesInSuperNode "[23, 45]"
+    gt "4"
+    nodesChanged "[]"
   ]
   node [
     id 13
-    label "50"
-    sizeSuperNode 2
-    nodesInSuperNode "[45, 50]"
+    label "0"
+    sizeSuperNode 4
+    nodesInSuperNode "[0, 10, 42, 47]"
     gt "2"
     nodesChanged "[]"
   ]
   node [
     id 14
-    label "51"
-    sizeSuperNode 3
-    nodesInSuperNode "[11, 4, 51]"
-    gt "2"
-    nodesChanged "[('11', '1', '2')]"
+    label "49"
+    sizeSuperNode 4
+    nodesInSuperNode "[34, 44, 46, 49]"
+    gt "3"
+    nodesChanged "[]"
   ]
   node [
     id 15
-    label "40"
+    label "51"
     sizeSuperNode 2
-    nodesInSuperNode "[40, 52]"
-    gt "2"
-    nodesChanged "[('40', 0, '2')]"
+    nodesInSuperNode "[11, 51]"
+    gt "4"
+    nodesChanged "[]"
   ]
   node [
     id 16
-    label "43"
+    label "40"
     sizeSuperNode 2
-    nodesInSuperNode "[43, 53]"
-    gt "2"
-    nodesChanged "[('43', 0, '2')]"
+    nodesInSuperNode "[40, 52]"
+    gt "3"
+    nodesChanged "[]"
   ]
   node [
     id 17
-    label "54"
-    sizeSuperNode 4
-    nodesInSuperNode "[7, 19, 41, 54]"
+    label "41"
+    sizeSuperNode 2
+    nodesInSuperNode "[41, 54]"
     gt "1"
-    nodesChanged "[('41', 0, '1'), ('54', '2', '1')]"
+    nodesChanged "[]"
   ]
   node [
     id 18
     label "55"
     sizeSuperNode 2
     nodesInSuperNode "[15, 55]"
-    gt "2"
+    gt "4"
     nodesChanged "[]"
   ]
   node [
     id 19
     label "56"
-    sizeSuperNode 4
-    nodesInSuperNode "[6, 9, 5, 56]"
+    sizeSuperNode 2
+    nodesInSuperNode "[5, 56]"
     gt "1"
-    nodesChanged "[('56', '2', '1')]"
+    nodesChanged "[]"
   ]
   node [
     id 20
-    label "57"
-    sizeSuperNode 3
-    nodesInSuperNode "[39, 13, 57]"
-    gt "2"
-    nodesChanged "[('39', 0, '2')]"
+    label "48"
+    sizeSuperNode 2
+    nodesInSuperNode "[48, 57]"
+    gt "1"
+    nodesChanged "[]"
   ]
   node [
     id 21
-    label "58"
-    sizeSuperNode 2
-    nodesInSuperNode "[38, 58]"
-    gt "2"
-    nodesChanged "[('38', 0, '2')]"
+    label "16"
+    sizeSuperNode 4
+    nodesInSuperNode "[16, 50, 38, 58]"
+    gt "3"
+    nodesChanged "[]"
   ]
   node [
     id 22
     label "59"
     sizeSuperNode 2
     nodesInSuperNode "[3, 59]"
-    gt "1"
-    nodesChanged "[('59', '2', '1')]"
+    gt "3"
+    nodesChanged "[]"
   ]
   node [
     id 23
     label "32"
-    sizeSuperNode 2
-    nodesInSuperNode "[32, 60]"
+    sizeSuperNode 4
+    nodesInSuperNode "[9, 13, 32, 60]"
     gt "1"
-    nodesChanged "[('60', '2', '1')]"
+    nodesChanged "[]"
   ]
   node [
     id 24
-    label "2"
-    sizeSuperNode 4
-    nodesInSuperNode "[20, 44, 2, 61]"
-    gt "2"
-    nodesChanged "[('44', 0, '2'), ('2', '1', '2')]"
+    label "61"
+    sizeSuperNode 3
+    nodesInSuperNode "[53, 2, 61]"
+    gt "3"
+    nodesChanged "[('2', '2', '3')]"
   ]
   edge [
     source 0
-    target 10
-  ]
-  edge [
-    source 0
-    target 12
-  ]
-  edge [
-    source 0
-    target 13
-  ]
-  edge [
-    source 0
-    target 22
-  ]
-  edge [
-    source 0
-    target 24
-  ]
-  edge [
-    source 1
-    target 2
-  ]
-  edge [
-    source 1
-    target 5
-  ]
-  edge [
-    source 1
-    target 10
-  ]
-  edge [
-    source 1
     target 15
   ]
   edge [
     source 1
-    target 18
-  ]
-  edge [
-    source 1
-    target 24
-  ]
-  edge [
-    source 2
-    target 5
-  ]
-  edge [
-    source 2
-    target 7
-  ]
-  edge [
-    source 2
-    target 12
-  ]
-  edge [
-    source 2
-    target 13
-  ]
-  edge [
-    source 2
-    target 15
-  ]
-  edge [
-    source 2
-    target 16
-  ]
-  edge [
-    source 2
-    target 21
-  ]
-  edge [
-    source 2
-    target 22
-  ]
-  edge [
-    source 2
-    target 24
-  ]
-  edge [
-    source 3
-    target 12
-  ]
-  edge [
-    source 3
-    target 13
-  ]
-  edge [
-    source 3
-    target 14
-  ]
-  edge [
-    source 4
     target 6
   ]
   edge [
+    source 1
+    target 17
+  ]
+  edge [
+    source 1
+    target 19
+  ]
+  edge [
+    source 1
+    target 20
+  ]
+  edge [
+    source 1
+    target 23
+  ]
+  edge [
+    source 2
+    target 7
+  ]
+  edge [
+    source 2
+    target 10
+  ]
+  edge [
+    source 2
+    target 11
+  ]
+  edge [
+    source 2
+    target 12
+  ]
+  edge [
+    source 2
+    target 22
+  ]
+  edge [
+    source 3
+    target 7
+  ]
+  edge [
+    source 3
+    target 16
+  ]
+  edge [
+    source 3
+    target 17
+  ]
+  edge [
+    source 4
+    target 5
+  ]
+  edge [
+    source 4
+    target 9
+  ]
+  edge [
     source 4
     target 10
   ]
   edge [
     source 4
+    target 11
+  ]
+  edge [
+    source 4
     target 12
   ]
   edge [
     source 4
-    target 17
+    target 15
+  ]
+  edge [
+    source 4
+    target 18
   ]
   edge [
     source 5
-    target 7
+    target 9
   ]
   edge [
     source 5
-    target 8
+    target 11
   ]
   edge [
     source 5
@@ -341,39 +317,55 @@ graph [
   ]
   edge [
     source 5
-    target 24
-  ]
-  edge [
-    source 6
-    target 19
-  ]
-  edge [
-    source 6
-    target 20
-  ]
-  edge [
-    source 7
-    target 12
-  ]
-  edge [
-    source 7
-    target 13
-  ]
-  edge [
-    source 7
-    target 15
-  ]
-  edge [
-    source 7
-    target 16
-  ]
-  edge [
-    source 7
     target 21
   ]
   edge [
+    source 5
+    target 22
+  ]
+  edge [
+    source 6
+    target 7
+  ]
+  edge [
+    source 6
+    target 8
+  ]
+  edge [
+    source 6
+    target 20
+  ]
+  edge [
+    source 6
+    target 23
+  ]
+  edge [
+    source 7
+    target 10
+  ]
+  edge [
+    source 7
+    target 13
+  ]
+  edge [
+    source 7
+    target 17
+  ]
+  edge [
+    source 9
+    target 11
+  ]
+  edge [
     source 9
     target 12
+  ]
+  edge [
+    source 9
+    target 13
+  ]
+  edge [
+    source 9
+    target 15
   ]
   edge [
     source 9
@@ -381,23 +373,55 @@ graph [
   ]
   edge [
     source 10
+    target 11
+  ]
+  edge [
+    source 10
+    target 12
+  ]
+  edge [
+    source 10
     target 13
   ]
   edge [
     source 10
-    target 17
+    target 14
   ]
   edge [
     source 10
-    target 24
+    target 16
   ]
   edge [
-    source 11
+    source 10
     target 20
   ]
   edge [
-    source 12
-    target 13
+    source 10
+    target 21
+  ]
+  edge [
+    source 10
+    target 22
+  ]
+  edge [
+    source 11
+    target 12
+  ]
+  edge [
+    source 11
+    target 14
+  ]
+  edge [
+    source 11
+    target 16
+  ]
+  edge [
+    source 11
+    target 21
+  ]
+  edge [
+    source 11
+    target 24
   ]
   edge [
     source 12
@@ -405,23 +429,19 @@ graph [
   ]
   edge [
     source 12
-    target 16
+    target 18
   ]
   edge [
     source 12
-    target 20
+    target 21
   ]
   edge [
     source 12
     target 22
   ]
   edge [
-    source 12
-    target 24
-  ]
-  edge [
     source 13
-    target 14
+    target 16
   ]
   edge [
     source 13
@@ -429,7 +449,7 @@ graph [
   ]
   edge [
     source 13
-    target 22
+    target 21
   ]
   edge [
     source 13
@@ -437,35 +457,35 @@ graph [
   ]
   edge [
     source 14
-    target 18
-  ]
-  edge [
-    source 15
-    target 17
-  ]
-  edge [
-    source 15
-    target 18
-  ]
-  edge [
-    source 15
     target 21
   ]
   edge [
-    source 16
-    target 21
-  ]
-  edge [
-    source 16
+    source 14
     target 24
   ]
   edge [
-    source 17
-    target 19
+    source 15
+    target 18
+  ]
+  edge [
+    source 15
+    target 21
+  ]
+  edge [
+    source 16
+    target 18
+  ]
+  edge [
+    source 16
+    target 21
   ]
   edge [
     source 17
     target 20
+  ]
+  edge [
+    source 17
+    target 23
   ]
   edge [
     source 18
@@ -482,9 +502,5 @@ graph [
   edge [
     source 20
     target 23
-  ]
-  edge [
-    source 21
-    target 24
   ]
 ]

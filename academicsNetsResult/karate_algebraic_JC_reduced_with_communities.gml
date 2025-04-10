@@ -17,18 +17,18 @@ graph [
   ]
   node [
     id 2
-    label "12"
-    sizeSuperNode 0
-    nodesInSuperNode "[]"
+    label "1"
+    sizeSuperNode 4
+    nodesInSuperNode "[3, 7, 1, 13]"
     gt "0"
     nodesChanged "[]"
   ]
   node [
     id 3
-    label "1"
-    sizeSuperNode 4
-    nodesInSuperNode "[3, 7, 1, 13]"
-    gt "0"
+    label "14"
+    sizeSuperNode 0
+    nodesInSuperNode "[]"
+    gt "1"
     nodesChanged "[]"
   ]
   node [
@@ -49,7 +49,7 @@ graph [
   ]
   node [
     id 6
-    label "19"
+    label "17"
     sizeSuperNode 0
     nodesInSuperNode "[]"
     gt "0"
@@ -57,7 +57,7 @@ graph [
   ]
   node [
     id 7
-    label "20"
+    label "18"
     sizeSuperNode 0
     nodesInSuperNode "[]"
     gt "1"
@@ -65,18 +65,18 @@ graph [
   ]
   node [
     id 8
-    label "0"
-    sizeSuperNode 3
-    nodesInSuperNode "[0, 17, 21]"
+    label "19"
+    sizeSuperNode 0
+    nodesInSuperNode "[]"
     gt "0"
     nodesChanged "[]"
   ]
   node [
     id 9
-    label "22"
-    sizeSuperNode 0
-    nodesInSuperNode "[]"
-    gt "1"
+    label "0"
+    sizeSuperNode 3
+    nodesInSuperNode "[0, 12, 21]"
+    gt "0"
     nodesChanged "[]"
   ]
   node [
@@ -107,7 +107,7 @@ graph [
     id 13
     label "32"
     sizeSuperNode 3
-    nodesInSuperNode "[14, 18, 32]"
+    nodesInSuperNode "[20, 22, 32]"
     gt "1"
     nodesChanged "[]"
   ]
@@ -125,31 +125,35 @@ graph [
   ]
   edge [
     source 0
-    target 8
+    target 9
   ]
   edge [
     source 1
-    target 8
+    target 9
   ]
   edge [
     source 2
-    target 3
-  ]
-  edge [
-    source 2
-    target 8
-  ]
-  edge [
-    source 3
     target 6
   ]
   edge [
-    source 3
+    source 2
     target 8
   ]
   edge [
-    source 3
+    source 2
+    target 9
+  ]
+  edge [
+    source 2
     target 11
+  ]
+  edge [
+    source 2
+    target 14
+  ]
+  edge [
+    source 3
+    target 13
   ]
   edge [
     source 3
@@ -165,11 +169,7 @@ graph [
   ]
   edge [
     source 6
-    target 8
-  ]
-  edge [
-    source 6
-    target 14
+    target 9
   ]
   edge [
     source 7
@@ -181,19 +181,19 @@ graph [
   ]
   edge [
     source 8
-    target 11
+    target 9
   ]
   edge [
     source 8
+    target 14
+  ]
+  edge [
+    source 9
+    target 11
+  ]
+  edge [
+    source 9
     target 12
-  ]
-  edge [
-    source 9
-    target 13
-  ]
-  edge [
-    source 9
-    target 14
   ]
   edge [
     source 10
