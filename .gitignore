@@ -4,6 +4,7 @@ __pycache__/
 .vscode/
 unified_env/
 env/
+venv
 
 # Ignore node_modules directory
 node_modules/
