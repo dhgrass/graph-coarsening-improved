@@ -25,8 +25,8 @@ methods = [
 ]
 
 # Evaluar cada grafo académico
-# graph_names = ["karate", "dolphins", "polbooks", "football"]
-graph_names = ["karate"]
+graph_names = ["karate", "dolphins", "polbooks", "football"]
+# graph_names = ["karate"]
 
 # Definir el directorio de salida
 output_dir = '/home/darian/graph-coarsening/academicNetworks_final_test_RESULT/'
@@ -179,8 +179,8 @@ def save_metrics_to_excel_allMethods(network_output_dir, graph_name):
     # Guardar el DataFrame combinado en un archivo Excel
     final_path = os.path.join(network_output_dir, f'{graph_name}_all_metrics_results.xlsx')
     one_table_results.to_excel(final_path, index=False)
-    print(f'Results saved in one_table_results.xlsx')
-    print("Done!")
+    print(f'Results saved in name of network "graph_name" .... _all_metrics_results.xlsx')
+
 
 
 if __name__ == "__main__":
