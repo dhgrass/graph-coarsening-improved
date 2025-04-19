@@ -671,10 +671,10 @@ if __name__ == "__main__":
     print("Starting...")
 
 
-    # print("Starting")
-    # input_path = "nets/BigNets/"
-    # output_path = "result/"
-    # testBigNetsAndSaveToGML(input_path, output_path)
+    print("Starting")
+    input_path = "nets/BigNets/"
+    output_path = "result/"
+    testBigNetsAndSaveToGML(input_path, output_path)
     # testCoarseningMethods(input_path, output_path, our_method=True)
     # print("Finished")
 
