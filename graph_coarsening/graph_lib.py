@@ -180,7 +180,7 @@ def realAcademic(N, graph_name, connected=True):
 
     # Cargar grafos académicos
     if graph_name == "karate":
-        nx_graph = nx.read_gml("/home/darian/graph-coarsening/AcademicsNets/karate.gml")
+        nx_graph = nx.read_gml("/home/darian/graph-coarsening/academicNetworks_final_test/karate.gml")
         G = to_pygsp_graph(nx_graph)
         # nx_graph = nx.karate_club_graph()
         # for u, v, d in nx_graph.edges(data=True):
@@ -189,15 +189,15 @@ def realAcademic(N, graph_name, connected=True):
         # G = to_pygsp_graph(nx_graph)
 
     elif graph_name == "dolphins":
-        nx_graph = nx.read_gml("/home/darian/graph-coarsening/AcademicsNets/dolphins.gml")
+        nx_graph = nx.read_gml("/home/darian/graph-coarsening/academicNetworks_final_test/dolphins.gml")
         G = to_pygsp_graph(nx_graph)
 
     elif graph_name == "polbooks":
-        nx_graph = nx.read_gml("/home/darian/graph-coarsening/AcademicsNets/polbooks.gml")
+        nx_graph = nx.read_gml("/home/darian/graph-coarsening/academicNetworks_final_test/polbooks.gml")
         G = to_pygsp_graph(nx_graph)
 
     elif graph_name == "football":
-        nx_graph = nx.read_gml("/home/darian/graph-coarsening/AcademicsNets/football.gml")
+        nx_graph = nx.read_gml("/home/darian/graph-coarsening/academicNetworks_final_test/football.gml")
         G = to_pygsp_graph(nx_graph)
 
     else:

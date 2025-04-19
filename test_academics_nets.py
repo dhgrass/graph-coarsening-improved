@@ -12,6 +12,24 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 from metrics import *
+# Parámetros globales
+r = 0.6  # coarsening ratio
+methods = [
+    "variation_neighborhoods",
+    "variation_edges",
+    "variation_cliques",
+    "heavy_edge",
+    "algebraic_JC",
+    "affinity_GS",
+    "kron",
+]
+
+# Evaluar cada grafo académico
+# graph_names = ["karate", "dolphins", "polbooks", "football"]
+graph_names = ["karate"]
+
+# Definir el directorio de salida
+output_dir = '/home/darian/graph-coarsening/academicNetworks_final_test_RESULT/'
 
 def setPropertiesToNodes(graph, Call, G):
     print("Setting properties to nodes")
@@ -79,22 +97,6 @@ def testAcademicsNets():
     Test the academics networks
     """
 
-    # Parámetros globales
-    r = 0.6  # coarsening ratio
-    methods = [
-        # "variation_neighborhoods",
-        # "variation_edges",
-        # "variation_cliques",
-        # "heavy_edge",
-        "algebraic_JC",
-        "affinity_GS",
-        # "kron",
-    ]
-
-    # Evaluar cada grafo académico
-    # graph_names = ["karate", "dolphins", "polbooks", "football"]
-    graph_names = ["karate"]
-
     spectral_metrics_all = []
 
     for graph_name in graph_names:
@@ -108,60 +110,82 @@ def testAcademicsNets():
         # Calcular base espectral para operaciones avanzadas
         G.compute_fourier_basis()
 
+        # Crear un directorio para la red si no existe
+        network_output_dir = os.path.join(output_dir, graph_name)
+        os.makedirs(network_output_dir, exist_ok=True)
 
         for method in methods:
             print(f"    - Método: {method}")
-            run_i = 0
-            for run_i in range(5):
 
-                # Aplicar coarsening
-                _, Gc, Call, _ = coarsening_utils.coarsen(G, r=r, method=method) # en Call está lo que necesito, propiedad indices
-                # Gc es el grafo reducido, Call es la lista de coarsening
-                nx_graph_H = nx.from_scipy_sparse_array(Gc.W)
+            # Aplicar coarsening
+            _, Gc, Call, _ = coarsening_utils.coarsen(G, r=r, method=method) # en Call está lo que necesito, propiedad indices
+            # Gc es el grafo reducido, Call es la lista de coarsening
+            nx_graph_H = nx.from_scipy_sparse_array(Gc.W)
 
-                # acá tengo que crear las propiedades 'sizeSuperNode' y 'nodesInSuperNode' en nx_graph_H 
-                _, G_reducido_update = setPropertiesToNodes(nx_graph_H, Call, G)
+            # acá tengo que crear las propiedades 'sizeSuperNode' y 'nodesInSuperNode' en nx_graph_H 
+            _, G_reducido_update = setPropertiesToNodes(nx_graph_H, Call, G)
 
-                # # Imprimir el grafo reducido con indexación y sus adyacentes
-                # i = 0
-                # print(f"Grafo reducido ({graph_name} - {method}):")
-                # for node in G_reducido_update.nodes():
-                #     neighbors = list(G_reducido_update.neighbors(node))
-                #     print(f"item {i} -> Node {node}: {neighbors}")
-                #     i+=1
+            # # Imprimir el grafo reducido con indexación y sus adyacentes
+            # i = 0
+            # print(f"Grafo reducido ({graph_name} - {method}):")
+            # for node in G_reducido_update.nodes():
+            #     neighbors = list(G_reducido_update.neighbors(node))
+            #     print(f"item {i} -> Node {node}: {neighbors}")
+            #     i+=1
 
-                # Guardar los grafos en formato GML para visualización en Gephi
-                # nx.write_gml(G_reducido_update, f'/home/darian/graph-coarsening/final_result/{graph_name}_{method}_reduced.gml')
+            # Guardar los grafos en formato GML para visualización en Gephi
+            # nx.write_gml(G_reducido_update, f'/home/darian/graph-coarsening/final_result/{graph_name}_{method}_reduced.gml')
 
-                # Convertir los grafos a matrices de adyacencia
-                adj_matrix_G = nx.to_numpy_array(nx_graph, weight=None)
-                adj_matrix_H = nx.to_numpy_array(nx_graph_H, weight=None)
+            # Convertir los grafos a matrices de adyacencia
+            adj_matrix_G = nx.to_numpy_array(nx_graph, weight=None)
+            adj_matrix_H = nx.to_numpy_array(nx_graph_H, weight=None)
 
-                # Guardar la matriz de adyacencia adj_matrix_H en un archivo .txt iterando fila por fila
-                adj_matrix_H_filename = os.path.join('/home/darian/graph-coarsening/final_result/', f'{graph_name}_{method}_{run_i}_reduced_adj_matrix.txt')
-                with open(adj_matrix_H_filename, 'w') as f:
-                    for row in adj_matrix_H:
-                        f.write(' '.join(map(str, row.astype(int))) + '\n')
-                print(f"Matriz de adyacencia guardada en: {adj_matrix_H_filename}")
+            # Guardar la matriz de adyacencia adj_matrix_H en un archivo .txt iterando fila por fila
+            adj_matrix_H_filename = os.path.join(network_output_dir, f'{graph_name}_{method}_reduced_adj_matrix.txt')
+            with open(adj_matrix_H_filename, 'w') as f:
+                for row in adj_matrix_H:
+                    f.write(' '.join(map(str, row.astype(int))) + '\n')
+            print(f"Matriz de adyacencia guardada en: {adj_matrix_H_filename}")
 
-                # # Imprimir la matriz de adyacencia adj_matrix_H
-                # print("Matriz de adyacencia (adj_matrix_H):")
-                # print(adj_matrix_H)
-                
-                # Calcular las métricas espectrales para el grafo original y el grafo reducido
-                spectral_metrics = analyze_spectral_properties(adj_matrix_G, adj_matrix_H)
+            # # Imprimir la matriz de adyacencia adj_matrix_H
+            # print("Matriz de adyacencia (adj_matrix_H):")
+            # print(adj_matrix_H)
+            
+            # Calcular las métricas espectrales para el grafo original y el grafo reducido
+            spectral_metrics = analyze_spectral_properties(adj_matrix_G, adj_matrix_H)
 
-                spectral_metrics['Network'] = graph_name
-                spectral_metrics['Method'] = method
+            spectral_metrics['Network'] = graph_name
+            spectral_metrics['Method'] = method
 
-                spectral_metrics_all.append(spectral_metrics)
+            spectral_metrics_all.append(spectral_metrics)
 
-                save_metrics_to_excel(spectral_metrics_all, f'/home/darian/graph-coarsening/final_result/metrics_results_{method}_{run_i}.xlsx')
-                spectral_metrics_all = []
+            metrics_result = os.path.join(network_output_dir, f'{graph_name}_metrics_results_{method}.xlsx')
+            save_metrics_to_excel(spectral_metrics_all, metrics_result)
+            spectral_metrics_all = []
+
+        # Guardar todos los resultados en un solo archivo Excel
+        save_metrics_to_excel_allMethods(network_output_dir, graph_name)
+
+def save_metrics_to_excel_allMethods(network_output_dir, graph_name):
+    one_table_results = pd.DataFrame()
+
+    for method in methods:
+        # Cargar los resultados de las métricas desde el archivo Excel
+        file_path = os.path.join(network_output_dir, f'{graph_name}_metrics_results_{method}.xlsx')
+        df = pd.read_excel(file_path)
+        
+        # Concatenar los resultados en un solo DataFrame
+        one_table_results = pd.concat([one_table_results, df], ignore_index=True)
+    # Guardar el DataFrame combinado en un archivo Excel
+    final_path = os.path.join(network_output_dir, f'{graph_name}_all_metrics_results.xlsx')
+    one_table_results.to_excel(final_path, index=False)
+    print(f'Results saved in one_table_results.xlsx')
+    print("Done!")
+
 
 if __name__ == "__main__":
     print("Starting...")
 
-    testAcademicsNets()
+    testAcademicsNets()    
     
     print("Done!")
