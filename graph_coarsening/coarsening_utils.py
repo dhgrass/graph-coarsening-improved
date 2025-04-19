@@ -71,19 +71,7 @@ def coarsen(
 
     for level in range(1, max_levels + 1):
 
-        # print("Nodes and their attributes in G:")
-        # for i in range(G.N):
-        #     print(f"Node {i}:")
-        #     if hasattr(G, 'coords'):
-        #         print(f"  Coordinates: {G.coords[i]}")
-        #     if hasattr(G, 'signals'):
-        #         print(f"  Signals: {G.signals[i]}")
-        #     if hasattr(G, 'labels'):
-        #         print(f"  Labels: {G.labels[i]}")
-        # print("number of nodes", Gc.N)
         G = Gc
-
-        
 
         # how much more we need to reduce the current graph
         r_cur = np.clip(1 - n_target / n, 0.0, max_level_r)
@@ -148,7 +136,14 @@ def coarsen(
         C = iC.dot(C)
         Call.append(iC)
         # print("number of nodes", G.N)
-        Wc = graph_utils.zero_diag(coarsen_matrix(G.W, iC))  # coarsen and remove self-loops, acá se reduce el grafo
+
+        Wc = coarsen_matrix(G.W, iC)
+
+        # 🔧 Solución A: Eliminar self-loops
+        Wc.setdiag(0)
+        Wc.eliminate_zeros()
+
+        # Wc = graph_utils.zero_diag(coarsen_matrix(G.W, iC))  # coarsen and remove self-loops, acá se reduce el grafo
         Wc = (Wc + Wc.T) / 2  # this is only needed to avoid pygsp complaining for tiny errors
         
         # en este punto es que debería actualizar etiquetas de los nodos: G tiene el grafo anterior a la reducción, 
@@ -157,34 +152,18 @@ def coarsen(
             Gc = gsp.graphs.Graph(Wc)
         else:
             Gc = gsp.graphs.Graph(Wc, coords=coarsen_vector(G.coords, iC))
+
+        # 🔧 Solución B: Detectar nodos con grado 0
+        degrees = Gc.W.sum(axis=1).A1 if hasattr(Gc.W.sum(axis=1), 'A1') else np.array(Gc.W.sum(axis=1)).flatten()
+        if np.any(degrees == 0):
+            print(f"⚠️ Warning: El grafo reducido en nivel {level} tiene nodos con grado 0")
+
         Gall.append(Gc)
 
         n = Gc.N
         # print("number of nodes", Gc.N) # se reduce el numero de nodos
         if n <= n_target:
             break
-    
-
-    # print("Vertices and their adjacent vertices in Gc:")
-    # for i in range(Gc.N):
-    #     neighbors = Gc.get_edge_list()[0][Gc.get_edge_list()[1] == i]
-    #     print(f"Vertex {i}: {neighbors}")
-
-    
-    # print("\nAdjacency lists of all graphs in Gall:")
-    # for level, graph in enumerate(Gall):
-    #     print(f"\nGraph at level {level}:")
-    #     for i in range(graph.N):
-    #         neighbors = graph.get_edge_list()[0][graph.get_edge_list()[1] == i]
-    #         print(f"Vertex {i}: {neighbors}")
-
-
-
-    # print("\nProperties of indices in the sparse matrices within Call:")
-    # for level, C in enumerate(Call):
-    #     print(f"\nLevel {level}:")
-    #     print(f"  Indices: {C.indices}")
-    #     print(f"  Indptr: {C.indptr}")
 
     print("Coarsening graph END")
     return C, Gc, Call, Gall
@@ -841,6 +820,13 @@ def generate_test_vectors(
         L_upper = sp.sparse.triu(L, 1, format="csc")
         L_lower_diag = sp.sparse.triu(L, 0, format="csc").T
 
+        # REGULARIZATION FIX HERE
+        diag = L_lower_diag.diagonal()
+        if np.any(diag == 0):
+            print("Warning: zero on diagonal, applying small regularization")
+            epsilon = 1e-5
+            L_lower_diag = L_lower_diag + sp.sparse.eye(L_lower_diag.shape[0], format="csc") * epsilon
+
         for j in range(num_vectors):
             x = X[:, j]
             for t in range(iterations):
@@ -853,9 +839,10 @@ def generate_test_vectors(
         # deg = G.dw.astype(np.float)
         deg = G.dw.astype(float)
         D = sp.sparse.diags(deg, 0)
-        deginv = deg ** (-1)
-        # deginv[deginv == np.Inf] = 0
-        deginv[deginv == np.inf] = 0
+        # deginv = deg ** (-1)
+        # deginv[deginv == np.inf] = 0
+        deginv = np.divide(1.0, deg, out=np.zeros_like(deg), where=deg != 0)
+
         Dinv = sp.sparse.diags(deginv, 0)
         M = Dinv.dot(D - L)
 

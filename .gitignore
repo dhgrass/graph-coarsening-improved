@@ -4,7 +4,7 @@ __pycache__/
 .vscode/
 unified_env/
 env/
-venv
+venv/
 
 # Ignore node_modules directory
 node_modules/
@@ -48,8 +48,16 @@ Thumbs.db
 *.png
 
 # Ignore Folders
+academicsNetsResult/
+academicNetworks_final_test_RESULT/
+academicNetworks_final_test/
+All_Networks/
 BigNets/
-final_results/
+BigNetsResults/
+bigsNetworks_final_test/
+bigsNetworks_final_test_RESULT/
+final_result/
+final_result-Copy/
 AcademicNets/
 AcademicNetsResult/
 netGML(notCommunity)/
