@@ -54,18 +54,7 @@ def analyze_spectral_properties(graph, reduced_graph):
     Returns:
     - metrics: spectral ratios, eigenratios, algebraic connectivity, and spectral gaps.
     """
-    # print("Begin analyze_spectral_properties")
-    # if isinstance(graph, nx.Graph):
-    #     print("Nodos y atributos de graph:", graph.nodes(data=True))
-    #     print("Aristas y atributos de graph:", graph.edges(data=True))
-    #     print("number of nodes in graph:", graph.number_of_nodes())
-    #     print("number of edges in graph:", graph.number_of_edges())
 
-    # if isinstance(reduced_graph, nx.Graph):
-    #     print("Nodos y atributos de reduced_graph:", reduced_graph.nodes(data=True))
-    #     print("Aristas y atributos de reduced_graph:", reduced_graph.edges(data=True))
-    #     print("number of nodes in reduced graph:", reduced_graph.number_of_nodes())
-    #     print("number of edges in reduced graph:", reduced_graph.number_of_edges())
     
     # Convert NetworkX graphs to adjacency matrices if they are not already numpy arrays
     if isinstance(graph, nx.Graph):
