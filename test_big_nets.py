@@ -28,10 +28,8 @@ methods = [
 ]
 
 
-big_nets_path = "/home/darian/graph-coarsening/bigsNetworks_final_test/"
-
-# Definir el directorio de salida
-output_dir = '/home/darian/graph-coarsening/bigsNetworks_final_test_RESULT/'
+big_nets_path = os.path.join(os.getcwd(), "bigsNetworks_final_test")
+output_dir = os.path.join(os.getcwd(), "bigsNetworks_final_test_RESULT")
 
 def testBigNets():
     
