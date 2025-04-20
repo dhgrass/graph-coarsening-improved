@@ -31,6 +31,30 @@ methods = [
 big_nets_path = os.path.join(os.getcwd(), "bigsNetworks_final_test")
 output_dir = os.path.join(os.getcwd(), "bigsNetworks_final_test_RESULT")
 
+
+def save_adjacency_matrix_to_file():
+    """
+    Guarda la matriz de adyacencia en un archivo de texto.
+    """
+
+    # Obtener la lista de archivos .gml en el directorio pathBignets
+    graph_files = glob.glob(os.path.join(big_nets_path, '*.gml'))
+
+    for graph_file in graph_files:
+        graph_name = os.path.splitext(os.path.basename(graph_file))[0]
+        print(f"\nEvaluando grafo: {graph_name}")
+        network_output_dir = os.path.join(output_dir, graph_name)
+
+        # Cargar el grafo desde el archivo .gml
+        nx_graph = nx.read_gml(graph_file)
+
+        adj_matrix_G = nx.to_numpy_array(nx_graph, weight=None)
+        adj_matrix_G_filename = os.path.join(network_output_dir, f'{graph_name}_original_adj_matrix.txt')
+        with open(adj_matrix_G_filename, 'w') as f:
+            for row in adj_matrix_G:
+                f.write(' '.join(map(str, row.astype(int))) + '\n')
+        print(f"Matriz de adyacencia guardada en: {adj_matrix_G_filename}")
+
 def testBigNets():
     
     spectral_metrics_all = []
@@ -129,6 +153,7 @@ def filter_nodes_with_degree_zero(G):
 if __name__ == "__main__":
     print("Starting Big nets...")
 
-    testBigNets()    
+    # testBigNets()    
+    save_adjacency_matrix_to_file()
     
     print("Big nets .... Done!")
