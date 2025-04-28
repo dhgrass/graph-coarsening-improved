@@ -22,17 +22,17 @@ r = 0.6  # coarsening ratio
 methods = [
     "variation_neighborhoods",
     "variation_edges",
-    # "variation_cliques",
-    # "heavy_edge",
-    # "algebraic_JC",
-    # "affinity_GS",
+    "variation_cliques",
+    "heavy_edge",
+    "algebraic_JC",
+    "affinity_GS",
     "kron",
 ]
 
-big_nets_path = os.path.join(os.getcwd(), "temporal_Nets_To_Test")
-output_dir = os.path.join(os.getcwd(), "temporal_temporal_Nets_To_Test_RESULT")
-# big_nets_path = os.path.join(os.getcwd(), "bigsNetworks_final_test")
-# output_dir = os.path.join(os.getcwd(), "bigsNetworks_final_test_RESULT")
+# big_nets_path = os.path.join(os.getcwd(), "temporal_Nets_To_Test")
+# output_dir = os.path.join(os.getcwd(), "temporal_temporal_Nets_To_Test_RESULT")
+big_nets_path = os.path.join(os.getcwd(), "bigsNetworks_final_test")
+output_dir = os.path.join(os.getcwd(), "bigsNetworks_final_test_RESULT")
 
 def test_big_nets():
     """
@@ -72,6 +72,7 @@ def test_big_nets():
 
         # 2. Convertir a pygsp
         G = graph_lib.to_pygsp_graph(nx_graph)
+        G.compute_differential_operator()
         G.compute_fourier_basis()
 
         # 3. Crear carpeta de salida
@@ -113,7 +114,7 @@ def test_big_nets():
             spectral_metrics_all = []
 
         # 11. Guardar resultados combinados para el grafo
-        # save_metrics_to_excel_allMethods(network_output_dir, graph_name)
+        save_metrics_to_excel_allMethods(network_output_dir, graph_name)
 
     print("\n✅ Test de todas las redes terminado correctamente.")
 
