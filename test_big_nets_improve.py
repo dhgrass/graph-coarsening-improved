@@ -55,7 +55,7 @@ def test_big_nets():
         # ⚡ Eliminar self-loops en nx_graph
         nx_graph.remove_edges_from(nx.selfloop_edges(nx_graph))
 
-        # Normalizar pesos a 1 (para comparaciones justas). Esto en los Big Nets, en las tradicinoales no es necesario
+        # # Normalizar pesos a 1 (para comparaciones justas). Esto en los Big Nets, en las tradicinoales no es necesario
         # for u, v, d in nx_graph.edges(data=True):
         #     d['weight'] = 1
 
