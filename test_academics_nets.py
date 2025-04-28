@@ -11,7 +11,9 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
+from graph_coarsening.graph_utils import safe_setPropertiesToNodes
 from metrics import *
+from test_networks_utils import filter_nodes_with_degree_zero, save_metrics_to_excel, save_metrics_to_excel_allMethods
 # Parámetros globales
 r = 0.6  # coarsening ratio
 methods = [
@@ -31,75 +33,14 @@ graph_names = ["karate", "dolphins", "polbooks", "football"]
 # Definir el directorio de salida
 output_dir = '/home/darian/graph-coarsening/academicNetworks_final_test_RESULT/'
 
-# def setPropertiesToNodes(graph, Call, G):
-#     print("Setting properties to nodes")
-#     for node in graph.nodes():
-#         graph.nodes[node]['sizeSuperNode'] = 0
-#         graph.nodes[node]['nodesInSuperNode'] = []
-
-#     node_mapping = {i: [i] for i in range(len(Call[0].indices))}
-    
-#     for level in range(len(Call)):
-#         new_node_mapping = {}
-#         for vi in range(len(Call[level].indices)):
-#             index = Call[level].indices[vi].real
-#             if index not in new_node_mapping:
-#                 new_node_mapping[index] = []
-#             new_node_mapping[index].extend(node_mapping[vi])
-        
-#         node_mapping = new_node_mapping
-
-#     for node, members in node_mapping.items():
-#         graph.nodes[node]['sizeSuperNode'] = len(members)
-#         graph.nodes[node]['nodesInSuperNode'] = members
-
-#     # print("Nodes and properties:", graph.nodes(data=True))
-
-#     # Create a new reduced graph with updated vertex indices
-#     new_graph = nx.Graph()
-
-#     node_mapping = {}
-#     for node in graph.nodes():
-#         members = graph.nodes[node]['nodesInSuperNode']
-        
-#         if len(members) > 1:
-#             # Find the node with the highest degree in the induced subgraph
-#             subgraph = nx.Graph(G.W).subgraph(members)
-#             max_degree_node = max(subgraph.degree, key=lambda x: x[1])[0]
-#             new_graph.add_node(max_degree_node)
-#             new_graph.nodes[max_degree_node]['label'] = max_degree_node
-#             new_graph.nodes[max_degree_node]['sizeSuperNode'] = len(members)
-#             new_graph.nodes[max_degree_node]['nodesInSuperNode'] = members
-#             node_mapping[node] = max_degree_node
-#         elif len(members) == 1:
-#             new_graph.add_node(members[0])
-#             new_graph.nodes[members[0]]['label'] = members[0]
-#             new_graph.nodes[members[0]]['sizeSuperNode'] = 0
-#             new_graph.nodes[members[0]]['nodesInSuperNode'] = []
-#             node_mapping[node] = members[0]
-
-#     # Add edges to the new graph using the node mapping
-#     for u, v in graph.edges():
-#         new_u = node_mapping[u]
-#         new_v = node_mapping[v]
-#         new_graph.add_edge(new_u, new_v)
-
-#     # print("New graph with updated vertex indices:", new_graph.nodes(data=True))
-    
-#     # Convert 'nodesInSuperNode' property to a list format
-#     for node in new_graph.nodes():
-#         new_graph.nodes[node]['nodesInSuperNode'] = str(new_graph.nodes[node]['nodesInSuperNode'])
-
-#     return graph, new_graph
-
-
-
-def testAcademicsNets():
+def test_academics_nets():
     """
     Test the academics networks
     """
 
     spectral_metrics_all = []
+    
+    tol = 1e-12
 
     for graph_name in graph_names:
         print(f"\nEvaluando grafo: {graph_name}")
@@ -116,57 +57,55 @@ def testAcademicsNets():
         network_output_dir = os.path.join(output_dir, graph_name)
         os.makedirs(network_output_dir, exist_ok=True)
 
+        # Info general
+        is_connected = nx.is_connected(nx_graph) if not nx.is_directed(nx_graph) else nx.is_weakly_connected(nx_graph)
+        num_components = nx.number_connected_components(nx_graph) if not nx.is_directed(nx_graph) else nx.number_weakly_connected_components(nx_graph)
+        is_directed = nx.is_directed(nx_graph)
+        is_weighted = nx.is_weighted(nx_graph)
+
+        print(f"    ¿Es conectado?: {'Sí' if is_connected else 'No'}")
+        print(f"    Número de componentes conexas: {num_components}")
+        print(f"    ¿Es dirigido?: {'Sí' if is_directed else 'No'}")
+        print(f"    ¿Es ponderado?: {'Sí' if is_weighted else 'No'}")
+
         for method in methods:
             print(f"    - Método: {method}")
 
-            # Aplicar coarsening
-            _, Gc, Call, _ = coarsening_utils.coarsen(G, r=r, method=method) # en Call está lo que necesito, propiedad indices
-            # Gc es el grafo reducido, Call es la lista de coarsening
-            nx_graph_H = nx.from_scipy_sparse_array(Gc.W)
+            # 4. Aplicar coarsening
+            _, Gc, Call, _ = coarsening_utils.coarsen(G, r=0.6, method=method)
 
-            # acá tengo que crear las propiedades 'sizeSuperNode' y 'nodesInSuperNode' en nx_graph_H 
-            _, G_reducido_update = setPropertiesToNodes(nx_graph_H, Call, G)
+            # 6. Filtrar nodos de grado 0 con tolerancia
+            Gc = filter_nodes_with_degree_zero(Gc, tol=tol)
 
-            # # Imprimir el grafo reducido con indexación y sus adyacentes
-            # i = 0
-            # print(f"Grafo reducido ({graph_name} - {method}):")
-            # for node in G_reducido_update.nodes():
-            #     neighbors = list(G_reducido_update.neighbors(node))
-            #     print(f"item {i} -> Node {node}: {neighbors}")
-            #     i+=1
+            # 7. Crear nx_graph_H y propiedades de supernodos de forma segura
+            nx_graph_H = safe_setPropertiesToNodes(Gc, Call, G, tol=tol)
 
-            # Guardar los grafos en formato GML para visualización en Gephi
-            # nx.write_gml(G_reducido_update, f'/home/darian/graph-coarsening/final_result/{graph_name}_{method}_reduced.gml')
-
-            # Convertir los grafos a matrices de adyacencia
+            # 7. Convertir grafos a matrices de adyacencia
             adj_matrix_G = nx.to_numpy_array(nx_graph, weight=None)
             adj_matrix_H = nx.to_numpy_array(nx_graph_H, weight=None)
 
-            # Guardar la matriz de adyacencia adj_matrix_H en un archivo .txt iterando fila por fila
+            # 8. Guardar matriz reducida
             adj_matrix_H_filename = os.path.join(network_output_dir, f'{graph_name}_{method}_reduced_adj_matrix.txt')
             with open(adj_matrix_H_filename, 'w') as f:
                 for row in adj_matrix_H:
                     f.write(' '.join(map(str, row.astype(int))) + '\n')
-            print(f"Matriz de adyacencia guardada en: {adj_matrix_H_filename}")
+            print(f"    Matriz de adyacencia guardada en: {adj_matrix_H_filename}")
 
-            # # Imprimir la matriz de adyacencia adj_matrix_H
-            # print("Matriz de adyacencia (adj_matrix_H):")
-            # print(adj_matrix_H)
-            
-            # Calcular las métricas espectrales para el grafo original y el grafo reducido
+            # 9. Calcular métricas espectrales
             spectral_metrics = analyze_spectral_properties(adj_matrix_G, adj_matrix_H)
-
             spectral_metrics['Network'] = graph_name
             spectral_metrics['Method'] = method
-
             spectral_metrics_all.append(spectral_metrics)
 
+            # 10. Guardar resultados parciales por método
             metrics_result = os.path.join(network_output_dir, f'{graph_name}_metrics_results_{method}.xlsx')
             save_metrics_to_excel(spectral_metrics_all, metrics_result)
             spectral_metrics_all = []
 
-        # Guardar todos los resultados en un solo archivo Excel
-        save_metrics_to_excel_allMethods(network_output_dir, graph_name)
+        # 11. Guardar resultados combinados para el grafo
+        # save_metrics_to_excel_allMethods(network_output_dir, graph_name)
+
+    print("\n✅ Test de todas las redes terminado correctamente.")
 
 
 
@@ -175,6 +114,6 @@ def testAcademicsNets():
 if __name__ == "__main__":
     print("Starting...")
 
-    testAcademicsNets()    
+    test_academics_nets()    
     
     print("Done!")
