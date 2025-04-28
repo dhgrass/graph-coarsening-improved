@@ -121,7 +121,7 @@ def test_big_nets():
 if __name__ == "__main__":
     print("Starting Big nets...")
 
-    # test_big_nets()    
+    test_big_nets()    
     save_adjacency_matrix_to_file(big_nets_path, output_dir)
     
     print("Big nets .... Done!")
