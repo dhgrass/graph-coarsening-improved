@@ -198,11 +198,11 @@ def analyze_spectral_properties(graph, reduced_graph, tol=1e-12):
     eigenvalues_L_prime[np.abs(eigenvalues_L_prime) < tol] = 0
 
     # Logs para revisión
-    print("Eigenvalues of the Laplacian matrix of the original graph:")
+    print("First 5 Eigenvalues of the Laplacian matrix of the original graph:")
     for i, val in enumerate(eigenvalues_L[:5]):
         print(f"  Row {i + 1}: {val}")
     print("---------------------------------------------------------------")
-    print("Eigenvalues of the Laplacian matrix of the reduced graph:")
+    print("First 5 Eigenvalues of the Laplacian matrix of the reduced graph:")
     for i, val in enumerate(eigenvalues_L_prime[:5]):
         print(f"  Row {i + 1}: {val}")
     print("---------------------------------------------------------------")
@@ -248,14 +248,14 @@ def analyze_spectral_properties(graph, reduced_graph, tol=1e-12):
 
     # Compilar resultados
     metrics = {
-        'Spectral Ratio (Original)': round(spectral_ratio_L.real, 4),
-        'Spectral Ratio (Reduced)': round(spectral_ratio_L_prime.real, 4),
-        'Eigenratio (Original)': round(eigenratio_L.real, 4),
-        'Eigenratio (Reduced)': round(eigenratio_L_prime.real, 4),
-        'Spectral Gap (Original)': round(spectral_gap_A.real, 4),
-        'Spectral Gap (Reduced)': round(spectral_gap_A_prime.real, 4),
-        'Algebraic Connectivity (Original)': round(algebraic_connectivity_L.real, 4),
-        'Algebraic Connectivity (Reduced)': round(algebraic_connectivity_L_prime.real, 4),
+        'Spectral Ratio (Original)': round(spectral_ratio_L.real, 8),
+        'Spectral Ratio (Reduced)': round(spectral_ratio_L_prime.real, 8),
+        'Eigenratio (Original)': round(eigenratio_L.real, 8),
+        'Eigenratio (Reduced)': round(eigenratio_L_prime.real, 8),
+        'Spectral Gap (Original)': round(spectral_gap_A.real, 8),
+        'Spectral Gap (Reduced)': round(spectral_gap_A_prime.real, 8),
+        'Algebraic Connectivity (Original)': round(algebraic_connectivity_L.real, 8),
+        'Algebraic Connectivity (Reduced)': round(algebraic_connectivity_L_prime.real, 8),
         'Number of Nodes (Original)': graph.shape[0],
         'Number of Nodes (Reduced)': reduced_graph.shape[0],
         'Number of Edges (Original)': np.count_nonzero(graph) // 2,
