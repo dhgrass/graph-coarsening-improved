@@ -139,14 +139,11 @@ def coarsen(
 
         Wc = coarsen_matrix(G.W, iC)
 
-        # 🔧 Solución A: Eliminar self-loops
+        # 🔧 Eliminar self-loops: Warning 2: main diagonal of weight matrix is not 0!
+        Wc = (Wc + Wc.T) / 2 
         Wc.setdiag(0)
         Wc.eliminate_zeros()
-
-        # Wc = graph_utils.zero_diag(coarsen_matrix(G.W, iC))  # coarsen and remove self-loops, acá se reduce el grafo
-        Wc = (Wc + Wc.T) / 2  # this is only needed to avoid pygsp complaining for tiny errors
         
-        # en este punto es que debería actualizar etiquetas de los nodos: G tiene el grafo anterior a la reducción, 
         # Wc tiene las nuevas dimensiones reducidas
         if not hasattr(G, "coords"):
             Gc = gsp.graphs.Graph(Wc)
@@ -187,7 +184,15 @@ def lift_vector(x, C):
 
 def coarsen_matrix(W, C):
     # Pinv = C.T; #Pinv[Pinv>0] = 1
-    D = sp.sparse.diags(np.array(1 / np.sum(C, 0))[0])
+
+    # change next line to verify "Warning 1: divide by zero encountered in divide"
+    # D = sp.sparse.diags(np.array(1 / np.sum(C, 0))[0])
+    # new line validate previous line
+    col_sums = np.array(np.sum(C, 0))[0]
+    safe_inv = np.divide(1.0, col_sums, out=np.zeros_like(col_sums), where=col_sums != 0)
+    D = sp.sparse.diags(safe_inv)
+
+
     Pinv = (C.dot(D)).T
     return (Pinv.T).dot(W.dot(Pinv))
 
