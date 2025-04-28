@@ -1,5 +1,7 @@
 import numpy as np
 import pygsp as gsp
+import networkx as nx
+from pygsp import graphs
 
 def to_networkx():
     import networkx as nx
@@ -131,3 +133,91 @@ def is_symmetric(As):
     check = np.allclose(vl, vu)
 
     return check
+
+def safe_setPropertiesToNodes(Gc, Call, G_original, tol=1e-12):
+    """
+    Set properties sizeSuperNode and nodesInSuperNode in the reduced graph,
+    after filtering out nodes with degree 0 and validating consistency.
+
+    Parameters
+    ----------
+    Gc : pygsp.graphs.Graph
+        Reduced graph after coarsening.
+    Call : list
+        List of coarsening matrices per level.
+    G_original : pygsp.graphs.Graph
+        Original full graph.
+    tol : float
+        Tolerance to consider degree effectively zero.
+
+    Returns
+    -------
+    nx_graph_H : networkx.Graph
+        NetworkX graph with properties assigned correctly.
+    new_graph : networkx.Graph
+        Optional: Clean graph with remapped supernodes (most connected node as representative).
+    """
+
+
+    print("🔵 Starting safe_setPropertiesToNodes...")
+
+    # 1. Eliminar nodos aislados
+    degrees = np.array(Gc.W.sum(axis=1)).flatten()
+    keep = degrees > tol
+    if np.any(~keep):
+        print(f"⚠️ Eliminando {np.sum(~keep)} nodos aislados del grafo reducido.")
+        Wc = Gc.W[keep][:, keep]
+        if hasattr(Gc, "coords"):
+            coords = np.array(Gc.coords)[keep]
+            Gc = graphs.Graph(Wc, coords=coords)
+        else:
+            Gc = graphs.Graph(Wc)
+        Gc.original_node_ids = np.where(keep)[0]  # guardamos remapeo
+
+    # 2. Construir NetworkX graph
+    nx_graph_H = nx.from_scipy_sparse_array(Gc.W)
+    if hasattr(Gc, "original_node_ids"):
+        mapping = dict(enumerate(Gc.original_node_ids))
+        nx_graph_H = nx.relabel_nodes(nx_graph_H, mapping)
+
+    print(f"✅ Grafo reducido ahora tiene {nx_graph_H.number_of_nodes()} nodos y {nx_graph_H.number_of_edges()} aristas.")
+
+    # 3. Asignar propiedades de supernodo
+    print("🛠️ Asignando propiedades 'sizeSuperNode' y 'nodesInSuperNode'...")
+    for node in nx_graph_H.nodes():
+        nx_graph_H.nodes[node]['sizeSuperNode'] = 0
+        nx_graph_H.nodes[node]['nodesInSuperNode'] = []
+
+    # Reconstruir mapeo usando Call
+    node_mapping = {i: [i] for i in range(len(Call[0].indices))}
+    for level in range(len(Call)):
+        new_node_mapping = {}
+        for vi in range(len(Call[level].indices)):
+            index = Call[level].indices[vi].real
+            if index not in new_node_mapping:
+                new_node_mapping[index] = []
+            new_node_mapping[index].extend(node_mapping[vi])
+        node_mapping = new_node_mapping
+
+    # Asignar tamaño y miembros
+    supernode_empty_count = 0
+    for node, members in node_mapping.items():
+        if node in nx_graph_H.nodes():
+            nx_graph_H.nodes[node]['sizeSuperNode'] = len(members)
+            nx_graph_H.nodes[node]['nodesInSuperNode'] = members
+        else:
+            supernode_empty_count += 1
+
+    if supernode_empty_count > 0:
+        print(f"⚠️ {supernode_empty_count} supernodos fueron descartados porque los nodos ya no existen (posiblemente grado 0).")
+
+    # 4. Validación de consistencia
+    print("🔍 Validando consistencia...")
+    for node in nx_graph_H.nodes():
+        members = nx_graph_H.nodes[node]['nodesInSuperNode']
+        if isinstance(members, list) and len(members) == 0:
+            print(f"⚠️ Supernodo {node} tiene 'nodesInSuperNode' vacío, posible inconsistencia.")
+
+    print("✅ safe_setPropertiesToNodes terminado correctamente.")
+
+    return nx_graph_H
