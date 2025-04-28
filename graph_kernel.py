@@ -53,7 +53,7 @@ def distancia_kernel(S1: np.ndarray, S2: np.ndarray) -> float:
 def cargar_matriz_desde_txt(filepath: str) -> np.ndarray:
     return np.loadtxt(filepath)
 
-def main():
+def main_1():
     archivo_principal = "karate_coarseNet_reduced_adj_matrix.txt"
     path_principal = os.path.join("./subgrafos_txt", archivo_principal)
     if os.path.exists(path_principal):
@@ -98,7 +98,7 @@ def main():
     print(df.to_string(index=False))
 
 if __name__ == "__main__":
-    main()
+    main_1()
 
 
 def main():
