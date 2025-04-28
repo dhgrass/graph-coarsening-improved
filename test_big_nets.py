@@ -14,22 +14,26 @@ import matplotlib.pyplot as plt
 from pygsp import graphs  
 
 from metrics import *
-from test_academics_nets import save_metrics_to_excel_allMethods, setPropertiesToNodes
+from test_networks_utils import save_metrics_to_excel_allMethods, setPropertiesToNodes
+
 # Parámetros globales
 r = 0.6  # coarsening ratio
 methods = [
-    "variation_neighborhoods",
-    "variation_edges",
-    "variation_cliques",
-    "heavy_edge",
-    "algebraic_JC",
-    "affinity_GS",
+    # "variation_neighborhoods",
+    # "variation_edges",
+    # "variation_cliques",
+    # "heavy_edge",
+    # "algebraic_JC",
+    # "affinity_GS",
     "kron",
 ]
 
+big_nets_path = os.path.join(os.getcwd(), "temporal_BigNets")
+output_dir = os.path.join(os.getcwd(), "temporal_BigNets_RESULT")
+# big_nets_path = os.path.join(os.getcwd(), "bigsNetworks_final_test")
+# output_dir = os.path.join(os.getcwd(), "bigsNetworks_final_test_RESULT")
 
-big_nets_path = os.path.join(os.getcwd(), "bigsNetworks_final_test")
-output_dir = os.path.join(os.getcwd(), "bigsNetworks_final_test_RESULT")
+
 
 
 def save_adjacency_matrix_to_file():
@@ -61,12 +65,30 @@ def testBigNets():
     # Obtener la lista de archivos .gml en el directorio pathBignets
     graph_files = glob.glob(os.path.join(big_nets_path, '*.gml'))
 
+    tol = 1e-12
+
     for graph_file in graph_files:
         graph_name = os.path.splitext(os.path.basename(graph_file))[0]
         print(f"\nEvaluando grafo: {graph_name}")
 
         # Cargar el grafo desde el archivo .gml
         nx_graph = nx.read_gml(graph_file)
+
+        # Verificar si el grafo es conectado o no
+        is_connected_nx_graph = nx.is_connected(nx_graph) if not nx.is_directed(nx_graph) else nx.is_weakly_connected(nx_graph)
+        print(f"    ¿Es conectado?: {'Sí' if is_connected_nx_graph else 'No'}")
+
+        # Contar el número de componentes conexas
+        num_components_nx_graph = nx.number_connected_components(nx_graph) if not nx.is_directed(nx_graph) else nx.number_weakly_connected_components(nx_graph)
+        print(f"    Número de componentes conexas: {num_components_nx_graph}")
+
+        # Verificar si el grafo es dirigido o no
+        is_directed_nx_graph = nx.is_directed(nx_graph)
+        print(f"    ¿Es dirigido?: {'Sí' if is_directed_nx_graph else 'No'}")
+
+        # Verificar si el grafo es ponderado o no
+        is_weighted_nx_graph = nx.is_weighted(nx_graph)
+        print(f"    ¿Es ponderado?: {'Sí' if is_weighted_nx_graph else 'No'}")
 
         # Convertir el grafo de NetworkX a la estructura esperada por graph_lib
         G = graph_lib.to_pygsp_graph(nx_graph)
@@ -86,6 +108,21 @@ def testBigNets():
 
             # ⚠️ Generar nx_graph_H directamente desde Gc antes de filtrar
             nx_graph_H = nx.from_scipy_sparse_array(Gc.W)
+
+            # Número de componentes conexas
+            components_original = nx.number_connected_components(nx_graph)
+            components_reduced = nx.number_connected_components(nx_graph_H)
+
+            # Número de nodos con grado 0
+            degree_dict_G = dict(nx.degree(nx_graph))
+            nodes_deg0_G = sum(1 for _, d in degree_dict_G.items() if d == 0)
+
+            degree_dict_H = dict(nx.degree(nx_graph_H))
+            nodes_deg0_H = sum(1 for _, d in degree_dict_H.items() if d == 0)
+
+            print(f"    Componentes conexas: Original = {components_original}, Reducido = {components_reduced}")
+            print(f"    Nodos grado 0:       Original = {nodes_deg0_G}, Reducido = {nodes_deg0_H}")
+
 
             # acá tengo que crear las propiedades 'sizeSuperNode' y 'nodesInSuperNode' en nx_graph_H 
             _, G_reducido_update = setPropertiesToNodes(nx_graph_H, Call, G)
@@ -153,7 +190,7 @@ def filter_nodes_with_degree_zero(G):
 if __name__ == "__main__":
     print("Starting Big nets...")
 
-    # testBigNets()    
-    save_adjacency_matrix_to_file()
+    testBigNets()    
+    # save_adjacency_matrix_to_file()
     
     print("Big nets .... Done!")
