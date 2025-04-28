@@ -46,6 +46,7 @@ Thumbs.db
 *.gml
 *.xlsx
 *.png
+*.zip
 
 # Ignore Folders
 academicsNetsResult/
