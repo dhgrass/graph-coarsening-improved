@@ -20,17 +20,17 @@ from test_networks_utils import filter_nodes_with_degree_zero, save_metrics_to_e
 # Parámetros globales
 r = 0.6  # coarsening ratio
 methods = [
-    # "variation_neighborhoods",
-    # "variation_edges",
+    "variation_neighborhoods",
+    "variation_edges",
     # "variation_cliques",
     # "heavy_edge",
     # "algebraic_JC",
     # "affinity_GS",
-    # "kron",
+    "kron",
 ]
 
-big_nets_path = os.path.join(os.getcwd(), "temporal_BigNets")
-output_dir = os.path.join(os.getcwd(), "temporal_BigNets_RESULT")
+big_nets_path = os.path.join(os.getcwd(), "temporal_Nets_To_Test")
+output_dir = os.path.join(os.getcwd(), "temporal_temporal_Nets_To_Test_RESULT")
 # big_nets_path = os.path.join(os.getcwd(), "bigsNetworks_final_test")
 # output_dir = os.path.join(os.getcwd(), "bigsNetworks_final_test_RESULT")
 
@@ -52,7 +52,10 @@ def test_big_nets():
         # 1. Cargar el grafo original
         nx_graph = nx.read_gml(graph_file)
 
-        # Normalizar pesos a 1 (para comparaciones justas)
+        # ⚡ Eliminar self-loops en nx_graph
+        nx_graph.remove_edges_from(nx.selfloop_edges(nx_graph))
+
+        # Normalizar pesos a 1 (para comparaciones justas). Esto en los Big Nets, en las tradicinoales no es necesario
         for u, v, d in nx_graph.edges(data=True):
             d['weight'] = 1
 
@@ -110,7 +113,14 @@ def test_big_nets():
             spectral_metrics_all = []
 
         # 11. Guardar resultados combinados para el grafo
-        save_metrics_to_excel_allMethods(network_output_dir, graph_name)
+        # save_metrics_to_excel_allMethods(network_output_dir, graph_name)
 
     print("\n✅ Test de todas las redes terminado correctamente.")
 
+if __name__ == "__main__":
+    print("Starting Big nets...")
+
+    test_big_nets()    
+    # save_adjacency_matrix_to_file()
+    
+    print("Big nets .... Done!")
