@@ -29,10 +29,10 @@ methods = [
     "kron",
 ]
 
-big_nets_path = os.path.join(os.getcwd(), "temporal_Nets_To_Test")
-output_dir = os.path.join(os.getcwd(), "temporal_temporal_Nets_To_Test_RESULT")
-# big_nets_path = os.path.join(os.getcwd(), "bigsNetworks_final_test")
-# output_dir = os.path.join(os.getcwd(), "bigsNetworks_final_test_RESULT")
+# big_nets_path = os.path.join(os.getcwd(), "temporal_Nets_To_Test")
+# output_dir = os.path.join(os.getcwd(), "temporal_temporal_Nets_To_Test_RESULT")
+big_nets_path = os.path.join(os.getcwd(), "bigsNetworks_final_test")
+output_dir = os.path.join(os.getcwd(), "bigsNetworks_final_test_RESULT")
 
 def test_big_nets():
     """
