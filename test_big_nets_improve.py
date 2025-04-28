@@ -15,7 +15,7 @@ import matplotlib.pyplot as plt
 from pygsp import graphs  
 
 from metrics import *
-from test_networks_utils import filter_nodes_with_degree_zero, save_metrics_to_excel_allMethods, save_metrics_to_excel
+from test_networks_utils import filter_nodes_with_degree_zero, save_adjacency_matrix_to_file, save_metrics_to_excel_allMethods, save_metrics_to_excel
 
 # Parámetros globales
 r = 0.6  # coarsening ratio
@@ -29,10 +29,10 @@ methods = [
     "kron",
 ]
 
-# big_nets_path = os.path.join(os.getcwd(), "temporal_Nets_To_Test")
-# output_dir = os.path.join(os.getcwd(), "temporal_temporal_Nets_To_Test_RESULT")
-big_nets_path = os.path.join(os.getcwd(), "bigsNetworks_final_test")
-output_dir = os.path.join(os.getcwd(), "bigsNetworks_final_test_RESULT")
+big_nets_path = os.path.join(os.getcwd(), "temporal_Nets_To_Test")
+output_dir = os.path.join(os.getcwd(), "temporal_temporal_Nets_To_Test_RESULT")
+# big_nets_path = os.path.join(os.getcwd(), "bigsNetworks_final_test")
+# output_dir = os.path.join(os.getcwd(), "bigsNetworks_final_test_RESULT")
 
 def test_big_nets():
     """
@@ -56,8 +56,8 @@ def test_big_nets():
         nx_graph.remove_edges_from(nx.selfloop_edges(nx_graph))
 
         # Normalizar pesos a 1 (para comparaciones justas). Esto en los Big Nets, en las tradicinoales no es necesario
-        for u, v, d in nx_graph.edges(data=True):
-            d['weight'] = 1
+        # for u, v, d in nx_graph.edges(data=True):
+        #     d['weight'] = 1
 
         # Info general
         is_connected = nx.is_connected(nx_graph) if not nx.is_directed(nx_graph) else nx.is_weakly_connected(nx_graph)
@@ -121,7 +121,7 @@ def test_big_nets():
 if __name__ == "__main__":
     print("Starting Big nets...")
 
-    test_big_nets()    
-    # save_adjacency_matrix_to_file()
+    # test_big_nets()    
+    save_adjacency_matrix_to_file(big_nets_path, output_dir)
     
     print("Big nets .... Done!")
