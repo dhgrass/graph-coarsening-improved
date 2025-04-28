@@ -31,66 +31,68 @@ graph_names = ["karate", "dolphins", "polbooks", "football"]
 # Definir el directorio de salida
 output_dir = '/home/darian/graph-coarsening/academicNetworks_final_test_RESULT/'
 
-def setPropertiesToNodes(graph, Call, G):
-    print("Setting properties to nodes")
-    for node in graph.nodes():
-        graph.nodes[node]['sizeSuperNode'] = 0
-        graph.nodes[node]['nodesInSuperNode'] = []
+# def setPropertiesToNodes(graph, Call, G):
+#     print("Setting properties to nodes")
+#     for node in graph.nodes():
+#         graph.nodes[node]['sizeSuperNode'] = 0
+#         graph.nodes[node]['nodesInSuperNode'] = []
 
-    node_mapping = {i: [i] for i in range(len(Call[0].indices))}
+#     node_mapping = {i: [i] for i in range(len(Call[0].indices))}
     
-    for level in range(len(Call)):
-        new_node_mapping = {}
-        for vi in range(len(Call[level].indices)):
-            index = Call[level].indices[vi].real
-            if index not in new_node_mapping:
-                new_node_mapping[index] = []
-            new_node_mapping[index].extend(node_mapping[vi])
+#     for level in range(len(Call)):
+#         new_node_mapping = {}
+#         for vi in range(len(Call[level].indices)):
+#             index = Call[level].indices[vi].real
+#             if index not in new_node_mapping:
+#                 new_node_mapping[index] = []
+#             new_node_mapping[index].extend(node_mapping[vi])
         
-        node_mapping = new_node_mapping
+#         node_mapping = new_node_mapping
 
-    for node, members in node_mapping.items():
-        graph.nodes[node]['sizeSuperNode'] = len(members)
-        graph.nodes[node]['nodesInSuperNode'] = members
+#     for node, members in node_mapping.items():
+#         graph.nodes[node]['sizeSuperNode'] = len(members)
+#         graph.nodes[node]['nodesInSuperNode'] = members
 
-    # print("Nodes and properties:", graph.nodes(data=True))
+#     # print("Nodes and properties:", graph.nodes(data=True))
 
-    # Create a new reduced graph with updated vertex indices
-    new_graph = nx.Graph()
+#     # Create a new reduced graph with updated vertex indices
+#     new_graph = nx.Graph()
 
-    node_mapping = {}
-    for node in graph.nodes():
-        members = graph.nodes[node]['nodesInSuperNode']
+#     node_mapping = {}
+#     for node in graph.nodes():
+#         members = graph.nodes[node]['nodesInSuperNode']
         
-        if len(members) > 1:
-            # Find the node with the highest degree in the induced subgraph
-            subgraph = nx.Graph(G.W).subgraph(members)
-            max_degree_node = max(subgraph.degree, key=lambda x: x[1])[0]
-            new_graph.add_node(max_degree_node)
-            new_graph.nodes[max_degree_node]['label'] = max_degree_node
-            new_graph.nodes[max_degree_node]['sizeSuperNode'] = len(members)
-            new_graph.nodes[max_degree_node]['nodesInSuperNode'] = members
-            node_mapping[node] = max_degree_node
-        elif len(members) == 1:
-            new_graph.add_node(members[0])
-            new_graph.nodes[members[0]]['label'] = members[0]
-            new_graph.nodes[members[0]]['sizeSuperNode'] = 0
-            new_graph.nodes[members[0]]['nodesInSuperNode'] = []
-            node_mapping[node] = members[0]
+#         if len(members) > 1:
+#             # Find the node with the highest degree in the induced subgraph
+#             subgraph = nx.Graph(G.W).subgraph(members)
+#             max_degree_node = max(subgraph.degree, key=lambda x: x[1])[0]
+#             new_graph.add_node(max_degree_node)
+#             new_graph.nodes[max_degree_node]['label'] = max_degree_node
+#             new_graph.nodes[max_degree_node]['sizeSuperNode'] = len(members)
+#             new_graph.nodes[max_degree_node]['nodesInSuperNode'] = members
+#             node_mapping[node] = max_degree_node
+#         elif len(members) == 1:
+#             new_graph.add_node(members[0])
+#             new_graph.nodes[members[0]]['label'] = members[0]
+#             new_graph.nodes[members[0]]['sizeSuperNode'] = 0
+#             new_graph.nodes[members[0]]['nodesInSuperNode'] = []
+#             node_mapping[node] = members[0]
 
-    # Add edges to the new graph using the node mapping
-    for u, v in graph.edges():
-        new_u = node_mapping[u]
-        new_v = node_mapping[v]
-        new_graph.add_edge(new_u, new_v)
+#     # Add edges to the new graph using the node mapping
+#     for u, v in graph.edges():
+#         new_u = node_mapping[u]
+#         new_v = node_mapping[v]
+#         new_graph.add_edge(new_u, new_v)
 
-    # print("New graph with updated vertex indices:", new_graph.nodes(data=True))
+#     # print("New graph with updated vertex indices:", new_graph.nodes(data=True))
     
-    # Convert 'nodesInSuperNode' property to a list format
-    for node in new_graph.nodes():
-        new_graph.nodes[node]['nodesInSuperNode'] = str(new_graph.nodes[node]['nodesInSuperNode'])
+#     # Convert 'nodesInSuperNode' property to a list format
+#     for node in new_graph.nodes():
+#         new_graph.nodes[node]['nodesInSuperNode'] = str(new_graph.nodes[node]['nodesInSuperNode'])
 
-    return graph, new_graph
+#     return graph, new_graph
+
+
 
 def testAcademicsNets():
     """
@@ -166,20 +168,7 @@ def testAcademicsNets():
         # Guardar todos los resultados en un solo archivo Excel
         save_metrics_to_excel_allMethods(network_output_dir, graph_name)
 
-def save_metrics_to_excel_allMethods(network_output_dir, graph_name):
-    one_table_results = pd.DataFrame()
 
-    for method in methods:
-        # Cargar los resultados de las métricas desde el archivo Excel
-        file_path = os.path.join(network_output_dir, f'{graph_name}_metrics_results_{method}.xlsx')
-        df = pd.read_excel(file_path)
-        
-        # Concatenar los resultados en un solo DataFrame
-        one_table_results = pd.concat([one_table_results, df], ignore_index=True)
-    # Guardar el DataFrame combinado en un archivo Excel
-    final_path = os.path.join(network_output_dir, f'{graph_name}_all_metrics_results.xlsx')
-    one_table_results.to_excel(final_path, index=False)
-    print(f'Results saved in name of network "graph_name" .... _all_metrics_results.xlsx')
 
 
 
