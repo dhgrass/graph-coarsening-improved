@@ -198,11 +198,21 @@ def analyze_spectral_properties(graph, reduced_graph, tol=1e-12):
     eigenvalues_L_prime[np.abs(eigenvalues_L_prime) < tol] = 0
 
     # Logs para revisión
-    print("First 5 eigenvalues of the Laplacian matrix of the original graph:", eigenvalues_L[:5])
-    print("First 5 eigenvalues of the Laplacian matrix of the reduced graph:", eigenvalues_L_prime[:5])
+    print("Eigenvalues of the Laplacian matrix of the original graph:")
+    for i, val in enumerate(eigenvalues_L[:5]):
+        print(f"  Row {i + 1}: {val}")
     print("---------------------------------------------------------------")
-    print("Last 5 eigenvalues of the Laplacian matrix of the original graph:", eigenvalues_L[-5:])
-    print("Last 5 eigenvalues of the Laplacian matrix of the reduced graph:", eigenvalues_L_prime[-5:])
+    print("Eigenvalues of the Laplacian matrix of the reduced graph:")
+    for i, val in enumerate(eigenvalues_L_prime[:5]):
+        print(f"  Row {i + 1}: {val}")
+    print("---------------------------------------------------------------")
+    print("Last 5 eigenvalues of the Laplacian matrix of the original graph:")
+    for i, val in enumerate(eigenvalues_L[-5:]):
+        print(f"  Row {i + 1}: {val}")
+    print("---------------------------------------------------------------")
+    print("Last 5 eigenvalues of the Laplacian matrix of the reduced graph:")
+    for i, val in enumerate(eigenvalues_L_prime[-5:]):
+        print(f"  Row {i + 1}: {val}")
     print("---------------------------------------------------------------")
 
     # Spectral Ratio
