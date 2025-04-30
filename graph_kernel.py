@@ -189,7 +189,8 @@ def main():
     '''Main function to process multiple directories and calculate distances to the original graph.
     '''
 
-    directorio = "./bigsNetworks_final_test_RESULT"
+    # directorio = "./bigsNetworks_final_test_RESULT"
+    directorio = "./academicNetworks_final_test_RESULT"
     subdirectorios = [os.path.join(directorio, d) for d in os.listdir(directorio) if os.path.isdir(os.path.join(directorio, d))]
 
     for subdirectorio in subdirectorios:
